@@ -21,9 +21,7 @@ class Client(Object):
         url = self.__addr + "/v1/login?username=" + username + "&pwd=" + base64.urlsafe_b64encode(password)
         self.request("POST", url)
 
-    def request(self, method, path, data):
-        url = self.__addr + path
-
+    def request(self, method, url, data):
         if data is not None:
             data = json.dump(data)
 
