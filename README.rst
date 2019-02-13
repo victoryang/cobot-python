@@ -13,6 +13,7 @@ Prequisite
 Setup tools
 -----------
     pip install setuptools twine
+    
     python setup.py sdist
 
 Install
