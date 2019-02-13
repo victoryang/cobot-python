@@ -3,21 +3,21 @@ The python version for cobot
 
 Download
 --------
-
-    |git clone https://github.com/victoryang/cobot-python
+..
+    git clone https://github.com/victoryang/cobot-python
 
 Prequisite
 ----------
-
-    |pip
+..
+    pip
 
 Setup tools
 -----------
-
-    |pip install setuptools
-     python setup.py sdist
+..
+    pip install setuptools
+    python setup.py sdist
 
 Install
 -------
-
-    |pip install ./dist/cobot-python-0.1.tar.gz
+..
+    pip install ./dist/cobot-python-0.1.tar.gz
