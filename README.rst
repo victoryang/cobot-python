@@ -1,14 +1,27 @@
-# The python version for cobot
+The python version for cobot
+############################
 
-## Download
+Download
+========
+
+.. code-block:: bash
     git clone https://github.com/victoryang/cobot-python
 
-## Prequisite
+Prequisite
+==========
+
+.. code-block:: bash
     pip
 
-## Setup tools
-    pip install setuptools
-    python setup.py sdist
+Setup tools
+===========
 
-## Install
-    pip install ./dist/cobot-python-0.1.tar.gz
+.. code-block:: bash
+     pip install setuptools
+     python setup.py sdist
+
+Install
++++++++
+
+.. code-block:: bash
+     pip install ./dist/cobot-python-0.1.tar.gz
