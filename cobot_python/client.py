@@ -49,4 +49,7 @@ class Client(object):
             print "get response error"
             return
 
+        if resp.status != 200:
+            print "response fails: " + resp.reason
+
         return json.loads(data)
