@@ -4,14 +4,15 @@ import httplib as http
 import json
 import base64
 
-DefaultPort = ":9000"
+DefaultPort = 9000
+TimeOut = 3
 
 class Client(object):
     token = ""
 
     def __init__(self, addr):
         self.__addr = addr
-        self.__conn = http.HTTPSConnection(addr + DefaultPort)
+        self.__conn = http.HTTPConnection(addr, DefaultPort, TimeOut)
         print "connectd to: " + addr + DefaultPort
 
     @property
