@@ -18,12 +18,14 @@ class Client(Object):
         return self.__addr
 
     def register(self, username, password):
-        url = self.__addr + "/v1/login?username=" + username + "&pwd=" + base64.urlsafe_b64encode(password)
-        self.request("POST", url)
+        url = "/v1/login?username=" + username + "&pwd=" + base64.urlsafe_b64encode(password)
+        res = self.sync_request("POST", url)
+        if res is not None:
+            token = res
 
-    def request(self, method, url, data):
+    def sync_request(self, method, url, data):
         if data is not None:
-            data = json.dump(data)
+            data = json.dumps(data)
 
         headers = {}
         headers["Content-Type"] = "application/json"
@@ -31,5 +33,17 @@ class Client(Object):
         if self.token != "":
             headers["Authorization"] = "bearer " + self.token
 
-        self.__conn.request(method, url, data, headers)
-        return self.__conn.getresponse()
+        try:
+            self.__conn.request(method, url, data, headers)
+        except:
+            print "send sync request error"
+            return
+
+        try:
+            resp = self.__conn.getresponse()
+            data = resp.read()
+        except:
+            print "get response error"
+            return
+
+        return json.loads(data)
