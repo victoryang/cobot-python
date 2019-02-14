@@ -6,7 +6,7 @@ import base64
 
 DefaultPort = ":9000"
 
-class Client(Object):
+class Client(object):
     token = ""
 
     def __init__(self, addr):
