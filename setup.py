@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name='cobot-python',
+    name='cobot_python',
     version='0.1',
     description='The sdk for cobot',
     license='MIT',
