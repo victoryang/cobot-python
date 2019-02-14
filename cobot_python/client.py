@@ -26,6 +26,9 @@ class Client(object):
         if res is not None:
             token = res
 
+    def reconnect(self):
+        self.__conn = http.HTTPConnection(addr, DefaultPort, TimeOut)
+
     def sync_request(self, method, url, data=None):
         if data is not None:
             data = json.dumps(data)
@@ -38,6 +41,8 @@ class Client(object):
 
         try:
             self.__conn.request(method, url, data, headers)
+        except http.NotConnected:
+            print "Lost connection to cobot, please reconnect to cobot"
         except:
             print "send sync request error"
             return
