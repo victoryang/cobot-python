@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import http
+import httplib as http
 import json
 import base64
 
@@ -10,8 +10,9 @@ class Client(object):
     token = ""
 
     def __init__(self, addr):
-        self.__addr = ipaddr
-        self.__conn = http.client.HTTPSConnection(addr + DefaultPort)
+        self.__addr = addr
+        self.__conn = http.HTTPSConnection(addr + DefaultPort)
+        print "connectd to: " + addr + DefaultPort
 
     @property
     def addr(self):
@@ -19,11 +20,12 @@ class Client(object):
 
     def register(self, username, password):
         url = "/v1/login?username=" + username + "&pwd=" + base64.urlsafe_b64encode(password)
+        print "url is: " + url
         res = self.sync_request("POST", url)
         if res is not None:
             token = res
 
-    def sync_request(self, method, url, data):
+    def sync_request(self, method, url, data=None):
         if data is not None:
             data = json.dumps(data)
 
