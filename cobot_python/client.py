@@ -13,7 +13,7 @@ class Client(object):
     def __init__(self, addr):
         self.__addr = addr
         self.__conn = http.HTTPConnection(addr, DefaultPort, TimeOut)
-        print "connectd to: " + addr + DefaultPort
+        print "connectd to: " + addr
 
     @property
     def addr(self):
