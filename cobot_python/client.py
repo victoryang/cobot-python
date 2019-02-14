@@ -51,5 +51,6 @@ class Client(object):
 
         if resp.status != 200:
             print "response fails: " + resp.reason
+            return
 
         return json.loads(data)
