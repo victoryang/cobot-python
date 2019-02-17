@@ -7,29 +7,17 @@ import base64
 DefaultPort = 9000
 TimeOut = 3
 
-class Client(object):
+class Transport(object):
     token = ""
 
     def __init__(self, addr):
         self.__addr = addr
-        self.__conn = http.HTTPConnection(addr, DefaultPort, TimeOut)
-        print "connectd to: " + addr
 
     @property
     def addr(self):
         return self.__addr
 
-    def register(self, username, password):
-        url = "/v1/login?username=" + username + "&pwd=" + base64.urlsafe_b64encode(password)
-        print "url is: " + url
-        res = self.sync_request("POST", url)
-        if res is not None:
-            token = res
-
-    def reconnect(self):
-        self.__conn = http.HTTPConnection(addr, DefaultPort, TimeOut)
-
-    def sync_request(self, method, url, data=None):
+    def request(self, method, url, data=None):
         if data is not None:
             data = json.dumps(data)
 
@@ -40,9 +28,10 @@ class Client(object):
             headers["Authorization"] = "bearer " + self.token
 
         try:
-            self.__conn.request(method, url, data, headers)
+            conn = http.HTTPConnection(addr, DefaultPort, TimeOut)
+            conn.request(method, url, data, headers)
         except http.NotConnected:
-            print "Lost connection to cobot, please reconnect to cobot"
+            print "Lost connection, please retry"
         except:
             print "send sync request error"
             return
@@ -58,4 +47,6 @@ class Client(object):
             print "response fails: " + resp.reason
             return
 
-        return json.loads(data)
+        return {
+            data:json.loads(data)
+        }
