@@ -9,7 +9,8 @@ class Context(object):
     def __init__(self, addr, port):
         self.__addr = addr
         self.__port = port
-        self.tran = transport.Transport(addr + str(port))
+        addr = addr + ":" + str(port)
+        self.tran = transport.Transport(addr)
 
     def is_login(self):
         return self.tran.is_login
