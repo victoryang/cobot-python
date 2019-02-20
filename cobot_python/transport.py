@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
-import httplib as http
+import requests
+import requests
 import json
-import base64
 
 DefaultPort = 9000
-TimeOut = 3
+DefaultTimeOut = 3
 
 class Transport(object):
     token = ""
@@ -17,36 +17,34 @@ class Transport(object):
     def addr(self):
         return self.__addr
 
-    def request(self, method, url, data=None):
-        if data is not None:
-            data = json.dumps(data)
+    @property
+    def is_login(self):
+        return token != ""
 
+    def __url(self, path):
+        return self.addr + path
+
+    def __get_standard_header(self):
         headers = {}
         headers["Content-Type"] = "application/json"
         headers["Accept"] = "application/json"
-        if self.token != "":
+        if self.is_login:
             headers["Authorization"] = "bearer " + self.token
 
-        try:
-            conn = http.HTTPConnection(addr, DefaultPort, TimeOut)
-            conn.request(method, url, data, headers)
-        except http.NotConnected:
-            print "Lost connection, please retry"
-        except:
-            print "send sync request error"
-            return
+        return headers
+
+    def get(self, path):
+        r = requests.get(self.__url(path), headers=self.__get_standard_header(), timeout=DefaultTimeOut)
+
+    def post(self, path, data):
+        if data is not None:
+            data = json.dumps(data)
+
+        r = requests.post(self.__url(path), headers=self.__get_standard_header(), data=data, timeout=DefaultTimeOut)
 
         try:
-            resp = self.__conn.getresponse()
-            data = resp.read()
+            resp = r.json()
         except:
-            print "get response error"
-            return
+            resp = None
 
-        if resp.status != 200:
-            print "response fails: " + resp.reason
-            return
-
-        return {
-            data:json.loads(data)
-        }
+        return r.status_code, resp

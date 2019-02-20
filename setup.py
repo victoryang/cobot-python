@@ -8,5 +8,6 @@ setup(
     author='victoryang',
     author_email='yangtao3601@126.com',
     packages=find_packages(),
+    install_requires=['requests'],
     url='https://github.com/victoryang/cobot-python'
 )

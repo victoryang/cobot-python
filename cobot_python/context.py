@@ -3,32 +3,32 @@
 import transport
 
 class Context(object):
-	transport = None
+	tran = None
 
 	def __init__(addr, port):
 		self.__addr = addr
 		self.__port = port
-		self.transport = Transport(addr + port)
+		self.tran = transport.Transport(addr + port)
 
 	def is_login(self):
-		return self.transport.token != ""
+		return self.tran.is_login
 
 	def login(self, username, password):
 		epwd = base64.urlsafe_b64encode(password)
         url = "/v1/login?username=" + username + "&pwd=" + epwd
 
-		res = self.transport.request("POST", url)
+		res = self.tran.post(url, None)
 		if res is None:
 			print "login fails"
 			return
 
-		self.transport.token = res.data
+		self.tran.token = res.data
 		print "login success"
 		return
 
 	def logout():
 		if self.is_login():
-        	self.transport.request("POST", "/v1/logout")
+        	self.tran.post("/v1/logout", None)
 
-        self.transport.token = ""
-		self.transport = None
+        self.tran.token = ""
+		self.tran = None
