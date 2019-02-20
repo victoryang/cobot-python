@@ -10,7 +10,7 @@ def get_user_list(ctx):
         }
     }
 
-    r = ctx.tran.get("/v1/users/", kwargs)
+    r = ctx.tran.get("/v1/users/", **kwargs)
     if r[0] != 200:
         print "get user list fails"
 

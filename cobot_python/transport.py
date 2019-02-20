@@ -62,7 +62,7 @@ class Transport(object):
 
         return self.__handle_response(r)
 
-    def put(self, path, data, params):
+    def put(self, path, *data, **kwargs):
         if data is not None:
             kwargs["data"] = json.dumps(data)
 
@@ -74,7 +74,7 @@ class Transport(object):
 
         return self.__handle_response(r)
 
-    def delete(self, path):
+    def delete(self, path, **kwargs):
         kwargs["headers"] = self.__get_standard_header()
 
         kwargs["timeout"] = DefaultTimeOut
