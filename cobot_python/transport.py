@@ -50,9 +50,9 @@ class Transport(object):
 
         return self.__handle_response(r)
 
-    def post(self, path, **kwargs):
-        if "data" in kwargs:
-            kwargs["data"] = json.dumps(kwargs["data"])
+    def post(self, path, data=None, **kwargs):
+        if data is not None:
+            kwargs["data"] = json.dumps(data)
 
         kwargs["headers"] = self.__get_standard_header()
 
@@ -64,13 +64,21 @@ class Transport(object):
 
     def put(self, path, data, params):
         if data is not None:
-            data = json.dumps(data)
+            kwargs["data"] = json.dumps(data)
 
-        r = requests.put(self.__url(path), headers=self.__get_standard_header(), data=data, params=params, timeout=DefaultTimeOut)
+        kwargs["headers"] = self.__get_standard_header()
+
+        kwargs["timeout"] = DefaultTimeOut
+
+        r = requests.put(self.__url(path), kwargs)
 
         return self.__handle_response(r)
 
     def delete(self, path):
-        r = requests.delete(self.__url(path), headers=self.__get_standard_header(), timeout=DefaultTimeOut)
+        kwargs["headers"] = self.__get_standard_header()
+
+        kwargs["timeout"] = DefaultTimeOut
+
+        r = requests.delete(self.__url(path), kwargs)
 
         return self.__handle_response(r)

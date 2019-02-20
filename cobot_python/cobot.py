@@ -3,12 +3,14 @@
 import context
 
 def get_user_list(ctx):
-    params = {
-        "start": 0,
-        "end": 10
+    kwargs = {
+        "params": {
+            "start": 0,
+            "end": 10
+        }
     }
 
-    r = ctx.tran.get("/v1/users/", params)
+    r = ctx.tran.get("/v1/users/", kwargs)
     if r[0] != 200:
         print "get user list fails"
 

@@ -17,12 +17,14 @@ class Context(object):
         return self.tran.is_login
 
     def login(self, username, password):
-        params = {
-        	"username": username,
-        	"pwd": base64.urlsafe_b64encode(password)
+        kwargs = {
+        	"params": {
+        		"username": username,
+        		"pwd": base64.urlsafe_b64encode(password)
+        	}
         }
 
-        res = self.tran.post("/v1/login", None, params)
+        res = self.tran.post("/v1/login", kwargs)
         if res[0] != 200:
             print "login fails"
             return
@@ -33,7 +35,7 @@ class Context(object):
 
     def logout(self):
         if self.is_login():
-            self.tran.post("/v1/logout", None, None)
+            self.tran.post("/v1/logout")
 
         self.tran.token = ""
         self.tran = None
