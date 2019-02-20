@@ -28,7 +28,7 @@ class Context(object):
         print "login success"
         return
 
-    def logout():
+    def logout(self):
         if self.is_login():
             self.tran.post("/v1/logout", None)
 
