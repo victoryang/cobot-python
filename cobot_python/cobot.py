@@ -8,9 +8,9 @@ def get_user_list(ctx):
         "end": 10
     }
 
-    res = ctx.tran.get("/v1/users/", params)
-    if res[0] != 200:
+    r = ctx.tran.get("/v1/users/", params)
+    if r[0] != 200:
         print "get user list fails"
 
     print "user list: "
-    print res[1]
+    print r[1]
