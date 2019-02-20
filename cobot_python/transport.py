@@ -35,7 +35,7 @@ class Transport(object):
 
     def __handle_response(self, r):
         try:
-            resp = r.json()
+            resp = json.loads(r.json())
         except:
             resp = None
 
