@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import transport
+import base64
 
 class Context(object):
     tran = None
@@ -8,7 +9,7 @@ class Context(object):
     def __init__(self, addr, port):
         self.__addr = addr
         self.__port = port
-        self.tran = transport.Transport(addr + port)
+        self.tran = transport.Transport(addr + str(port))
 
     def is_login(self):
         return self.tran.is_login
@@ -18,11 +19,11 @@ class Context(object):
         url = "/v1/login?username=" + username + "&pwd=" + epwd
 
         res = self.tran.post(url, None)
-        if res is None:
+        if res[0] != 200:
             print "login fails"
             return
 
-        self.tran.token = res.data
+        self.tran.token = res[1]
         print "login success"
         return
 
