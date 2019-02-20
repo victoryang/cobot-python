@@ -46,31 +46,31 @@ class Transport(object):
 
         kwargs["timeout"] = DefaultTimeOut
 
-        r = requests.get(self.__url(path), kwargs)
+        r = requests.get(self.__url(path), **kwargs)
 
         return self.__handle_response(r)
 
     def post(self, path, *data, **kwargs):
-        if data is not None:
+        if data:
             kwargs["data"] = json.dumps(data)
 
         kwargs["headers"] = self.__get_standard_header()
 
         kwargs["timeout"] = DefaultTimeOut
 
-        r = requests.post(self.__url(path), kwargs)
+        r = requests.post(self.__url(path), **kwargs)
 
         return self.__handle_response(r)
 
     def put(self, path, *data, **kwargs):
-        if data is not None:
+        if data:
             kwargs["data"] = json.dumps(data)
 
         kwargs["headers"] = self.__get_standard_header()
 
         kwargs["timeout"] = DefaultTimeOut
 
-        r = requests.put(self.__url(path), kwargs)
+        r = requests.put(self.__url(path), **kwargs)
 
         return self.__handle_response(r)
 
@@ -79,6 +79,6 @@ class Transport(object):
 
         kwargs["timeout"] = DefaultTimeOut
 
-        r = requests.delete(self.__url(path), kwargs)
+        r = requests.delete(self.__url(path), **kwargs)
 
         return self.__handle_response(r)
