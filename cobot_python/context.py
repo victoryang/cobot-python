@@ -4,6 +4,7 @@ import transport
 import base64
 
 class Context(object):
+
     tran = None
 
     def __init__(self, addr, port):

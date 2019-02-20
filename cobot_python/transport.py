@@ -3,11 +3,11 @@
 import requests
 import json
 
-DefaultPort = 9000
 DefaultTimeOut = 3
 DefaultSchema = "http://"
 
 class Transport(object):
+
     token = ""
 
     def __init__(self, addr):
@@ -41,15 +41,24 @@ class Transport(object):
 
         return r.status_code, resp
 
-    def get(self, path, params):
-        r = requests.get(self.__url(path), headers=self.__get_standard_header(), params=params, timeout=DefaultTimeOut)
+    def get(self, path, **kwargs):
+        kwargs["headers"] = self.__get_standard_header()
+
+        kwargs["timeout"] = DefaultTimeOut
+
+        r = requests.get(self.__url(path), kwargs)
+
         return self.__handle_response(r)
 
-    def post(self, path, data, params):
-        if data is not None:
-            data = json.dumps(data)
+    def post(self, path, **kwargs):
+        if "data" in kwargs:
+            kwargs["data"] = json.dumps(kwargs["data"])
 
-        r = requests.post(self.__url(path), headers=self.__get_standard_header(), data=data, params=params, timeout=DefaultTimeOut)
+        kwargs["headers"] = self.__get_standard_header()
+
+        kwargs["timeout"] = DefaultTimeOut
+
+        r = requests.post(self.__url(path), kwargs)
 
         return self.__handle_response(r)
 
