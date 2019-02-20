@@ -41,39 +41,36 @@ class Transport(object):
 
         return r.status_code, resp
 
-    def __request_common_handle(self, kwargs):
+    def __request_common_handle(self, data, kwargs):
+        if data:
+            kwargs["data"] = json.dumps(data)
+
         kwargs["headers"] = self.__get_standard_header()
         kwargs["timeout"] = DefaultTimeOut
 
     def get(self, path, **kwargs):
-        self.__request_common_handle(kwargs)
+        self.__request_common_handle(None, kwargs)
 
         r = requests.get(self.__url(path), **kwargs)
 
         return self.__handle_response(r)
 
     def post(self, path, *data, **kwargs):
-        if data:
-            kwargs["data"] = json.dumps(data)
-
-        self.__request_common_handle(kwargs)
+        self.__request_common_handle(data, kwargs)
 
         r = requests.post(self.__url(path), **kwargs)
 
         return self.__handle_response(r)
 
     def put(self, path, *data, **kwargs):
-        if data:
-            kwargs["data"] = json.dumps(data)
-
-        self.__request_common_handle(kwargs)
+        self.__request_common_handle(data, kwargs)
 
         r = requests.put(self.__url(path), **kwargs)
 
         return self.__handle_response(r)
 
     def delete(self, path, **kwargs):
-        self.__request_common_handle(kwargs)
+        self.__request_common_handle(None, kwargs)
 
         r = requests.delete(self.__url(path), **kwargs)
 
