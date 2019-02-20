@@ -32,5 +32,5 @@ class Context(object):
         if self.is_login():
             self.tran.post("/v1/logout", None)
 
-    self.tran.token = ""
-    self.tran = None
+        self.tran.token = ""
+        self.tran = None
