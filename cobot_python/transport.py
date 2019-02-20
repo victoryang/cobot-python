@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import requests
-import requests
 import json
 
 DefaultPort = 9000
@@ -34,8 +33,17 @@ class Transport(object):
 
         return headers
 
+    def __handle_response(self, r):
+        try:
+            resp = r.json()
+        except:
+            resp = None
+
+        return r.status_code, resp
+
     def get(self, path):
         r = requests.get(self.__url(path), headers=self.__get_standard_header(), timeout=DefaultTimeOut)
+        return self.__handle_response(r)
 
     def post(self, path, data):
         if data is not None:
@@ -48,4 +56,17 @@ class Transport(object):
         except:
             resp = None
 
-        return r.status_code, resp
+        return self.__handle_response(r)
+
+    def put(self, path, data):
+        if data is not None:
+            data = json.dumps(data)
+
+        r = requests.put(self.__url(path), headers=self.__get_standard_header(), data=data, timeout=DefaultTimeOut)
+
+        return self.__handle_response(r)
+
+    def delete(self, path):
+        r = requests.delete(self.__url(path), headers=self.__get_standard_header(), timeout=DefaultTimeOut)
+
+        return self.__handle_response(r)
