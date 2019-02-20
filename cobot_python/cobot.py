@@ -13,4 +13,4 @@ def get_user_list(ctx):
         print "get user list fails"
 
     print "user list: "
-    print r[1]
+    print r[1]["users"]
