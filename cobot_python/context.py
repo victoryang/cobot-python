@@ -5,7 +5,7 @@ import transport
 class Context(object):
     tran = None
 
-    def __init__(addr, port):
+    def __init__(self, addr, port):
         self.__addr = addr
         self.__port = port
         self.tran = transport.Transport(addr + port)
