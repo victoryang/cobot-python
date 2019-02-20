@@ -19,7 +19,7 @@ class Transport(object):
 
     @property
     def is_login(self):
-        return token != ""
+        return self.token != ""
 
     def __url(self, path):
         return self.addr + path
