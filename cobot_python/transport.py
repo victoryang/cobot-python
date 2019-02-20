@@ -51,11 +51,6 @@ class Transport(object):
 
         r = requests.post(self.__url(path), headers=self.__get_standard_header(), data=data, timeout=DefaultTimeOut)
 
-        try:
-            resp = r.json()
-        except:
-            resp = None
-
         return self.__handle_response(r)
 
     def put(self, path, data):
