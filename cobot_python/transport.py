@@ -41,23 +41,23 @@ class Transport(object):
 
         return r.status_code, resp
 
-    def get(self, path):
-        r = requests.get(self.__url(path), headers=self.__get_standard_header(), timeout=DefaultTimeOut)
+    def get(self, path, params):
+        r = requests.get(self.__url(path), headers=self.__get_standard_header(), params=params, timeout=DefaultTimeOut)
         return self.__handle_response(r)
 
-    def post(self, path, data):
+    def post(self, path, data, params):
         if data is not None:
             data = json.dumps(data)
 
-        r = requests.post(self.__url(path), headers=self.__get_standard_header(), data=data, timeout=DefaultTimeOut)
+        r = requests.post(self.__url(path), headers=self.__get_standard_header(), data=data, params=params, timeout=DefaultTimeOut)
 
         return self.__handle_response(r)
 
-    def put(self, path, data):
+    def put(self, path, data, params):
         if data is not None:
             data = json.dumps(data)
 
-        r = requests.put(self.__url(path), headers=self.__get_standard_header(), data=data, timeout=DefaultTimeOut)
+        r = requests.put(self.__url(path), headers=self.__get_standard_header(), data=data, params=params, timeout=DefaultTimeOut)
 
         return self.__handle_response(r)
 
