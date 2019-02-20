@@ -39,3 +39,12 @@ class Context(object):
 
         self.tran.token = ""
         self.tran = None
+
+    def check_health(self):
+        r = self.tran.get("/health")
+
+        if r[0] != 200:
+            print "peer not respond"
+            return
+
+        print r[1]
