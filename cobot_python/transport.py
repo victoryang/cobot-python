@@ -50,7 +50,7 @@ class Transport(object):
 
         return self.__handle_response(r)
 
-    def post(self, path, data=None, **kwargs):
+    def post(self, path, *data, **kwargs):
         if data is not None:
             kwargs["data"] = json.dumps(data)
 
