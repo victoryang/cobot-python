@@ -24,7 +24,7 @@ class Context(object):
         	}
         }
 
-        res = self.tran.post("/v1/login/", **kwargs)
+        res = self.tran.post("/v1/login", **kwargs)
         if res[0] != 200:
             print "login fails"
             return
