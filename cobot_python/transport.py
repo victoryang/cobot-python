@@ -6,12 +6,13 @@ import json
 
 DefaultPort = 9000
 DefaultTimeOut = 3
+DefaultSchema = "http://"
 
 class Transport(object):
     token = ""
 
     def __init__(self, addr):
-        self.__addr = addr
+        self.__addr = DefaultSchema + addr
 
     @property
     def addr(self):
