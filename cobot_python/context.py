@@ -24,12 +24,12 @@ class Context(object):
         	}
         }
 
-        res = self.tran.post("/v1/login", **kwargs)
-        if res[0] != 200:
+        r = self.tran.post("/v1/login", **kwargs)
+        if r[0] != 200:
             print "login fails"
             return
 
-        self.tran.token = res[1]
+        self.tran.token = r[1]
         print "login success"
         return
 
