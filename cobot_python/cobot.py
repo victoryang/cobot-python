@@ -18,6 +18,14 @@ def get_user_list(ctx):
     print r[1]["users"]
 
 def power(ctx):
+    """Power on servo
+    Args:
+        ctx: Context
+
+    Returns:
+        Success: True
+        Failure: False
+    """
     r = ctx.tran.post("/v1/robot/axisctrl/sync")
 
     if r[0] != 200:
@@ -26,8 +34,18 @@ def power(ctx):
     return r[1]
 
 def startup(ctx):
-    data = ["-f"]
-    r = ctx.tran.post("/v1/robot/axisctrl/servo/on", *data)
+    """Start servo
+    Args:
+        ctx: Context
+
+    Returns:
+        Success: True
+        Failure: False
+    """
+    data = {
+        "args": ["-f"]
+    }
+    r = ctx.tran.post("/v1/robot/axisctrl/servo/on", data)
 
     if r[0] != 200:
         return False
@@ -35,8 +53,18 @@ def startup(ctx):
     return r[1]
 
 def shutdown(ctx):
-    data = ["-f"]
-    r = ctx.tran.post("/v1/robot/axisctrl/servo/off", *data)
+    """Shut down servo
+    Args:
+        ctx: Context
+
+    Returns:
+        Success: True
+        Failure: False
+    """
+    data = {
+        "args": ["-f"]
+    }
+    r = ctx.tran.post("/v1/robot/axisctrl/servo/off", data)
 
     if r[0] != 200:
         return False

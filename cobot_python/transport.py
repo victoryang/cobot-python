@@ -55,14 +55,14 @@ class Transport(object):
 
         return self.__handle_response(r)
 
-    def post(self, path, *data, **kwargs):
+    def post(self, path, data, **kwargs):
         self.__request_common_handle(data, kwargs)
 
         r = requests.post(self.__url(path), **kwargs)
 
         return self.__handle_response(r)
 
-    def put(self, path, *data, **kwargs):
+    def put(self, path, data, **kwargs):
         self.__request_common_handle(data, kwargs)
 
         r = requests.put(self.__url(path), **kwargs)
