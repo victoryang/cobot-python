@@ -24,7 +24,7 @@ def get_robot_mode(ctx):
         ctx: Context
 
     Returns:
-        Success: Robot mode code, see model.py
+        Success: Robot mode code, see model.ROBOT_MODE
         Failure: False
     """
     r = ctx.tran.get("/v2/paramservice/robot/mode")
@@ -38,16 +38,16 @@ def set_robot_mode(ctx, mode):
     """Set robot mode
     Args:
         ctx: Context
-        mode: Robot mode code, see model.py
+        mode: Robot mode code, see model.ROBOT_MODE
 
     Retures:
         Success: True
         Failure: False
     """
-    if mode is not in ROBOT_MODE:
+    if mode is not in model.ROBOT_MODE:
         return False
 
-    r = ctx.tran.put("/v2/paramservice/robot/mode/" + ROBOT_MODE[mode])
+    r = ctx.tran.put("/v2/paramservice/robot/mode/" + model.ROBOT_MODE[mode])
 
     if r[0] != 200:
         return False
