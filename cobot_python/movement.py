@@ -3,9 +3,15 @@
 import context
 import schedule
 import param
+import model
+from threading import Thread
 
 def robot_mode_stop(ctx):
-    return param.get_robot_mode(ctx)
+    mode = param.get_robot_mode(ctx)
+    if mode == model.ROBOT_STATE_STOP:
+        return True
+
+    return False
 
 def joint_move(ctx, target_pos, speed):
     """Run joint move synchronously
@@ -27,9 +33,12 @@ def joint_move(ctx, target_pos, speed):
         return False
 
     sch = schedule.Scheduler(robot_mode_stop, 60)
-    sch.do(ctx)
+    return sch.do(ctx)
 
-def joint_move_async(ctx, target_pos, speed):
+def cb_example(ret):
+    print "ret is " + str(ret)
+
+def joint_move_async(ctx, target_pos, speed, cb=cb_example):
     """Run joint move asynchronously
     Args:
         ctx: Context
@@ -48,6 +57,9 @@ def joint_move_async(ctx, target_pos, speed):
     r = ctx.tran.post("/v2/movementservice/robot/movement/joint", data)
     if r[0] != 200:
         return False
+
+    sch = schedule.Scheduler(robot_mode_stop, 60)
+    Thread(target=sch.do_async, args=(cb, ctx)).start()
 
     return r[1]
 
@@ -124,7 +136,7 @@ def clear_waypoint(ctx):
         Success: True
         Failure: False
     """
-    r = ctx.tran.post("/v2/movementservice/robot/movement/waypoints/all")
+    r = ctx.tran.delete("/v2/movementservice/robot/movement/waypoints/all")
     if r[0] != 200:
         return False
 

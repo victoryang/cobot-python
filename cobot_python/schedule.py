@@ -4,7 +4,7 @@ import time
 
 class Scheduler(object):
 
-    def __init__(task, timeout):
+    def __init__(self, task, timeout):
         self.task = task
         self.timeout = timeout
 
@@ -32,3 +32,22 @@ class Scheduler(object):
             return False
 
         return True
+
+    def do_async(self, cb, *args):
+        i = 0
+        ret = True
+        g = self.generator(*args)
+        g.next()
+
+        while i < self.timeout:
+            i = i + 1
+            r = g.send(True)
+            if r == True:
+                break
+
+        g.close()
+
+        if i == self.timeout:
+            ret = False
+
+        cb(ret)
