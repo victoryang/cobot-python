@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 
 import context
+import model
+
+# Robot state code
+ROBOT_STATE_STOP = 0
+ROBOT_STATE_PAUSE = 1
+ROBOT_STATE_EMESTOP = 2
+ROBOT_STATE_RUNNING = 3
+ROBOT_STATE_ERROR = 4
 
 def get_robot_state(ctx):
     """Get robot state
@@ -8,7 +16,7 @@ def get_robot_state(ctx):
         ctx: Context
 
     Returns:
-        Success: Robot state code, see model.py
+        Success: int: robot state code
         Failure: False
     """
     r = ctx.tran.get("/v2/paramservice/robot/state")
@@ -18,13 +26,18 @@ def get_robot_state(ctx):
 
     return r[1]
 
+# Robot mode code
+ROBOT_MODE_TEACH = 0
+ROBOT_MODE_PLAY = 1
+ROBOT_MODE_REMOTE = 2
+
 def get_robot_mode(ctx):
     """Get robot mode
     Args:
         ctx: Context
 
     Returns:
-        Success: Robot mode code, see model.ROBOT_MODE
+        Success: int: robot mode code
         Failure: False
     """
     r = ctx.tran.get("/v2/paramservice/robot/mode")
@@ -34,11 +47,18 @@ def get_robot_mode(ctx):
 
     return r[1]
 
+# Robot mode map
+ROBOT_MODE = {
+    ROBOT_MODE_TEACH: "teach",
+    ROBOT_MODE_PLAY: "play",
+    ROBOT_MODE_REMOTE: "remote"
+}
+
 def set_robot_mode(ctx, mode):
     """Set robot mode
     Args:
         ctx: Context
-        mode: Robot mode code, see model.ROBOT_MODE
+        mode: int: robot mode code
 
     Retures:
         Success: True
@@ -144,7 +164,7 @@ def set_play_speed(ctx, speed):
         Success: True
         Failure: False
     """
-    r = ctx.tran.get("/v2/paramservice/robot/playspeed/" + str(speed))
+    r = ctx.tran.put("/v2/paramservice/robot/playspeed/" + str(speed))
 
     if r[0] != 200:
         print False
