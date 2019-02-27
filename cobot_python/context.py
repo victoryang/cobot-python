@@ -28,8 +28,8 @@ class Context(object):
     	"""Login with username and password.
         Connects to robot controller with username and password.
         Args:
-            username: A string contains username
-            password: A string contains password.
+            username: string: username
+            password: string: password
 
         Returns:
             Success: 0

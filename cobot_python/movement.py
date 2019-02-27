@@ -3,7 +3,7 @@
 import context
 import schedule
 import param
-import model
+
 from threading import Thread
 
 def robot_mode_stop(ctx):
@@ -17,8 +17,8 @@ def joint_move(ctx, target_pos, speed):
     """Run joint move synchronously
     Args:
         ctx: Context
-        target_pos: target position, [0,90,0,0,0,0,0,0]
-        speed: Running speed, 0.5
+        target_pos: list: target position, [0,90,0,0,0,0,0,0]
+        speed: float: Running speed, 0.5
 
     Returns:
         Success: True
@@ -35,6 +35,7 @@ def joint_move(ctx, target_pos, speed):
     sch = schedule.Scheduler(robot_mode_stop, 60)
     return sch.do(ctx)
 
+
 def cb_example(ret):
     print "ret is " + str(ret)
 
@@ -42,8 +43,9 @@ def joint_move_async(ctx, target_pos, speed, cb=cb_example):
     """Run joint move asynchronously
     Args:
         ctx: Context
-        target_pos: target position, [0,90,0,0,0,0,0,0]
-        speed: Running speed, 0.5
+        target_pos: list: target position, [0,90,0,0,0,0,0,0]
+        speed: float: Running speed, 0.5
+        cb: function: callback function, default cb_example
 
     Returns:
         Success: True
@@ -67,7 +69,7 @@ def set_waypoint_max_joint_speed(ctx, speed):
     """Set max joint speed
     Args:
         ctx: Context
-        speed: Max joint speed
+        speed: float: Max joint speed
 
     Returns:
         Success: True
@@ -83,7 +85,7 @@ def set_waypoint_max_line_speed(ctx, speed):
     """Set max line speed
     Args:
         ctx: Context
-        speed: Max line speed
+        speed: float: Max line speed
 
     Returns:
         Success: True
@@ -99,7 +101,7 @@ def set_waypoint_max_rotate_speed(ctx, speed):
     """Set max rotate speed
     Args:
         ctx: Context
-        speed: Max rotate speed
+        speed: float: Max rotate speed
 
     Returns:
         Success: True
@@ -115,13 +117,16 @@ def add_waypoint(ctx, target_pos):
     """Add waypoint info
     Args:
         ctx: Context
-        target_pos: Target position
+        target_pos: float list: Target position
 
     Returns:
         Success: True
         Failure: False
     """
-    r = ctx.tran.post("/v2/movementservice/robot/movement/waypoints", )
+    data = {
+        
+    }
+    r = ctx.tran.post("/v2/movementservice/robot/movement/waypoints", data)
     if r[0] != 200:
         return False
 

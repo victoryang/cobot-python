@@ -138,7 +138,7 @@ def set_play_speed(ctx, speed):
     """Set robot play speed
     Args:
         ctx: Context
-        speed: play speed
+        speed: int: play speed
 
     Retures:
         Success: True

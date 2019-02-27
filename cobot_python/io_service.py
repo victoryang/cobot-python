@@ -1,16 +1,19 @@
 #!/usr/bin/env python
 
 import context
-import model
+
+# IO status
+IO_STATUS_OFF = 0
+IO_STATUS_ON = 1
 
 def get_input(ctx, addr):
     """get input io status
     Args:
         ctx: Context
-        addr: IO address
+        addr: int: IO address
 
     Returns:
-        Success: IO status, see model.py
+        Success: int: IO status
         Failure: False
     """
     r = ctx.tran.get("/v2/ioservice/io/input/" + str(addr))
@@ -24,7 +27,7 @@ def get_output(ctx, addr):
     """get output io status
     Args:
         ctx: Context
-        addr: IO address
+        addr: int: IO address
 
     Returns:
         Success: IO status, see model.py
@@ -41,8 +44,8 @@ def set_output(ctx, addr, status):
     """set output io status
     Args:
         ctx: Context
-        addr: IO address
-        status: IO status, see model.py
+        addr: int: IO address
+        status: int: IO status
 
     Returns:
         Success: True
@@ -59,7 +62,7 @@ def get_virtual_input(ctx, addr):
     """get virtual input io status
     Args:
         ctx: Context
-        addr: IO address
+        addr: int: IO address
 
     Returns:
         Success: IO status, see model.py
@@ -76,7 +79,7 @@ def get_virtual_output(ctx, addr):
     """get virtual output io status
     Args:
         ctx: Context
-        addr: IO address
+        addr: int: IO address
 
     Returns:
         Success: IO status, see model.py
@@ -94,8 +97,8 @@ def set_virtual_output(ctx, addr, status):
     """set virtual output io status
     Args:
         ctx: Context
-        addr: IO address
-        status: IO status, see model.py
+        addr: int: IO address
+        status: int: IO status
 
     Returns:
         Success: True
@@ -112,7 +115,7 @@ def get_var(ctx, var_name):
     """get iobus variable value
     Args:
         ctx: Context
-        var_name: Iobus variable name
+        var_name: string: Iobus variable name
 
     Returns:
         Success: Variable value
@@ -129,14 +132,14 @@ def set_var(ctx, var_name, value):
     """set iobus variable value
     Args:
         ctx: Context
-        var_name: Iobus variable name
-        value: Iobus variable value
+        var_name: string: Iobus variable name
+        value: int: Iobus variable value
 
     Returns:
         Success: True
         Failure: False
     """
-    r = ctx.tran.put("/v2/ioservice/iobus/vars/" + var_name + "/" + value)
+    r = ctx.tran.put("/v2/ioservice/iobus/vars/" + var_name + "/" + str(value))
 
     if r[0] != 200:
         return False
