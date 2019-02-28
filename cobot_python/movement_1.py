@@ -291,10 +291,7 @@ def add_waypoint(ctx, target_pos):
         Success: True
         Failure: False
     """
-    data = {
-
-    }
-    r = ctx.tran.post("/v2/movementservice/robot/movement/waypoints", data)
+    r = ctx.tran.post("/v2/movementservice/robot/movement/waypoints", target_pos)
     if r[0] != 200:
         return False
 

@@ -63,7 +63,7 @@ def set_robot_mode(ctx, mode):
         Success: True
         Failure: False
     """
-    if mode is not in ROBOT_MODE:
+    if mode not in ROBOT_MODE:
         return False
 
     r = ctx.tran.put("/v2/paramservice/robot/mode/" + ROBOT_MODE[mode])
