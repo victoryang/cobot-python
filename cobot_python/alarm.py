@@ -37,6 +37,9 @@ def get_latest_alarms(ctx):
     if r[0] != 200:
         return False
 
+    if r[1] is None:
+        return False
+
     ret = r[1]
     return {
         "time": ret["time"],

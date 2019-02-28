@@ -17,4 +17,6 @@ print "power on: " + str(servo.power(ctx))
 
 print "get input status: " + str(io_service.get_input(ctx, 0))
 
+print "get latest alarm: " + str(alarm.get_latest_alarms(ctx))
+
 ctx.logout()
