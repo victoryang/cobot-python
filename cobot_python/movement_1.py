@@ -75,7 +75,9 @@ def joint_move_async(ctx, target_pos, speed):
     if r[0] != 200:
         return False
 
-    future = {}
+    future = {
+        "result": False
+    }
     Thread(target=do_movement_check_async, args=(ctx, target_pos, future)).start()
 
     return future
@@ -122,7 +124,9 @@ def line_move_async(ctx, target_pos, speed):
     if r[0] != 200:
         return False
 
-    future = {}
+    future = {
+        "result": False
+    }
     Thread(target=do_movement_check_async, args=(ctx, target_pos, future)).start()
 
     return r[1]
@@ -173,7 +177,9 @@ def arc_move_async(ctx, mid_pos, target_pos, speed):
     if r[0] != 200:
         return False
 
-    future = {}
+    future = {
+        "result": False
+    }
     Thread(target=do_movement_check_async, args=(ctx, target_pos, future)).start()
 
     return r[1]
@@ -220,7 +226,9 @@ def rotate_move_async(ctx, target_pos, speed):
     if r[0] != 200:
         return False
 
-    future = {}
+    future = {
+        "result": False
+    }
     Thread(target=do_movement_check_async, args=(ctx, target_pos, future)).start()
 
     return r[1]
