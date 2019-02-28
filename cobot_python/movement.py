@@ -131,7 +131,7 @@ def arc_move(ctx, mid_pos, target_pos, speed):
     """Run arc move synchronously
     Args:
         ctx: Context
-        mid_pos: list: 
+        mid_pos: list: second target position
         target_pos: list: target position, [0,90,0,0,0,0,0,0]
         speed: int: Running speed, [1-3000]
 
@@ -149,6 +149,33 @@ def arc_move(ctx, mid_pos, target_pos, speed):
         return False
 
     return do_move_check(ctx, target_pos)
+
+def arc_move_async(ctx, mid_pos, target_pos, speed, cb=cb_example):
+    """Run arc move asynchronously
+    Args:
+        ctx: Context
+        mid_pos: list: second target position 
+        target_pos: list: target position, [0,90,0,0,0,0,0,0]
+        speed: int: Running speed, [1-3000]
+        cb: function: callback function, default cb_example
+
+    Returns:
+        Success: True
+        Failure: False
+    """
+    data = {
+        "midPos": mid_pos,
+        "targetPos": target_pos,
+        "speed": speed
+    }
+
+    r = ctx.tran.post("/v2/movementservice/robot/movement/arc", data)
+    if r[0] != 200:
+        return False
+
+    Thread(target=do_movement_check_async, args=(ctx, target_pos, cb)).start()
+
+    return r[1]
 
 def rotate_move(ctx, target_pos, speed):
     """Run rotate move synchronously
