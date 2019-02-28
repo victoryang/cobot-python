@@ -39,6 +39,7 @@ def base2user(ctx, pose, user_no=-1):
     Args:
         ctx: Context
         pose: list: pose info
+        user_no: int: user no, optional
 
     Returns:
         Success: list: Pose info
@@ -59,6 +60,7 @@ def user2base(ctx, pose, user_no=-1):
     Args:
         ctx: Context
         pose: list: pose info
+        user_no: int: user no, optional
 
     Returns:
         Success: list: Pose info

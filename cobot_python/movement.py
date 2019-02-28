@@ -6,12 +6,34 @@ import param
 
 from threading import Thread
 
-def robot_mode_stop(ctx):
-    mode = param.get_robot_mode(ctx)
-    if mode == model.ROBOT_STATE_STOP:
+def robot_state_stop(ctx):
+    state = param.get_robot_state(ctx)
+    if state == param.ROBOT_STATE_STOP or state == param.ROBOT_STATE_ERROR:
         return True
 
     return False
+
+def do_movement_check(ctx, target_pos):
+    sch = schedule.Scheduler(robot_state_stop, 60)
+
+    if sch.do(ctx):
+        pos = get_robot_pos(ctx)
+        if set(pos) == set(target_pos):
+            return 0
+        else:
+            if param.get_robot_state(ctx) == param.ROBOT_STATE_ERROR:
+                return -2
+            else:
+                return -1
+
+    return -3
+
+def cb_example(ret):
+    print "ret is " + str(ret)
+
+def do_movement_check_async(ctx, target_pos, cb=cb_example):
+    ret = do_movement_check(ctx, target_pos)
+    cb(ret)
 
 def joint_move(ctx, target_pos, speed):
     """Run joint move synchronously
@@ -21,8 +43,8 @@ def joint_move(ctx, target_pos, speed):
         speed: float: Running speed, 0.5
 
     Returns:
-        Success: True
-        Failure: False
+        Success: 0
+        Failure: Other
     """
     data = {
         "targetPos": target_pos,
@@ -32,12 +54,7 @@ def joint_move(ctx, target_pos, speed):
     if r[0] != 200:
         return False
 
-    sch = schedule.Scheduler(robot_mode_stop, 60)
-    return sch.do(ctx)
-
-
-def cb_example(ret):
-    print "ret is " + str(ret)
+    return do_movement_check(ctx, target_pos)
 
 def joint_move_async(ctx, target_pos, speed, cb=cb_example):
     """Run joint move asynchronously
@@ -60,8 +77,122 @@ def joint_move_async(ctx, target_pos, speed, cb=cb_example):
     if r[0] != 200:
         return False
 
-    sch = schedule.Scheduler(robot_mode_stop, 60)
-    Thread(target=sch.do_async, args=(cb, ctx)).start()
+    Thread(target=do_movement_check_async, args=(ctx, target_pos, cb)).start()
+
+    return r[1]
+
+def line_move(ctx, target_pos, speed):
+    """Run line move synchronously
+    Args:
+        ctx: Context
+        target_pos: list: target position, [0,90,0,0,0,0,0,0]
+        speed: int: Running speed, [1-3000]
+
+    Returns:
+        Success: 0
+        Failure: Other
+    """
+    data = {
+        "targetPos": target_pos,
+        "speed": speed
+    }
+    r = ctx.tran.post("/v2/movementservice/robot/movement/line", data)
+    if r[0] != 200:
+        return False
+
+    return do_move_check(ctx, target_pos)
+
+def line_move_async(ctx, target_pos, speed, cb=cb_example):
+    """Run line move asynchronously
+    Args:
+        ctx: Context
+        target_pos: list: target position, [0,90,0,0,0,0,0,0]
+        speed: float: Running speed, 0.5
+        cb: function: callback function, default cb_example
+
+    Returns:
+        Success: True
+        Failure: False
+    """
+    data = {
+        "targetPos": target_pos,
+        "speed": speed
+    }
+
+    r = ctx.tran.post("/v2/movementservice/robot/movement/line", data)
+    if r[0] != 200:
+        return False
+
+    Thread(target=do_movement_check_async, args=(ctx, target_pos, cb)).start()
+
+    return r[1]
+
+def arc_move(ctx, mid_pos, target_pos, speed):
+    """Run arc move synchronously
+    Args:
+        ctx: Context
+        mid_pos: list: 
+        target_pos: list: target position, [0,90,0,0,0,0,0,0]
+        speed: int: Running speed, [1-3000]
+
+    Returns:
+        Success: 0
+        Failure: Other
+    """
+    data = {
+        "midPos": mid_pos,
+        "targetPos": target_pos,
+        "speed": speed
+    }
+    r = ctx.tran.post("/v2/movementservice/robot/movement/arc", data)
+    if r[0] != 200:
+        return False
+
+    return do_move_check(ctx, target_pos)
+
+def rotate_move(ctx, target_pos, speed):
+    """Run rotate move synchronously
+    Args:
+        ctx: Context
+        target_pos: list: target position, [0,90,0,0,0,0,0,0]
+        speed: int: Running speed
+
+    Returns:
+        Success: 0
+        Failure: Other
+    """
+    data = {
+        "targetPos": target_pos,
+        "speed": speed
+    }
+    r = ctx.tran.post("/v2/movementservice/robot/movement/rotate", data)
+    if r[0] != 200:
+        return False
+
+    return do_move_check(ctx, target_pos)
+
+def rotate_move_async(ctx, target_pos, speed, cb=cb_example):
+    """Run rotate move asynchronously
+    Args:
+        ctx: Context
+        target_pos: list: target position, [0,90,0,0,0,0,0,0]
+        speed: float: Running speed
+        cb: function: callback function, default cb_example
+
+    Returns:
+        Success: True
+        Failure: False
+    """
+    data = {
+        "targetPos": target_pos,
+        "speed": speed
+    }
+
+    r = ctx.tran.post("/v2/movementservice/robot/movement/line", data)
+    if r[0] != 200:
+        return False
+
+    Thread(target=do_movement_check_async, args=(ctx, target_pos, cb)).start()
 
     return r[1]
 
@@ -124,7 +255,7 @@ def add_waypoint(ctx, target_pos):
         Failure: False
     """
     data = {
-        
+
     }
     r = ctx.tran.post("/v2/movementservice/robot/movement/waypoints", data)
     if r[0] != 200:
