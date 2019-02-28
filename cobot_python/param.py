@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import context
-import model
 
 # Robot state code
 ROBOT_STATE_STOP = 0
@@ -64,10 +63,10 @@ def set_robot_mode(ctx, mode):
         Success: True
         Failure: False
     """
-    if mode is not in model.ROBOT_MODE:
+    if mode is not in ROBOT_MODE:
         return False
 
-    r = ctx.tran.put("/v2/paramservice/robot/mode/" + model.ROBOT_MODE[mode])
+    r = ctx.tran.put("/v2/paramservice/robot/mode/" + ROBOT_MODE[mode])
 
     if r[0] != 200:
         return False
