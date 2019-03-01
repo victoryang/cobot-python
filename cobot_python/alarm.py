@@ -23,7 +23,7 @@ def get_latest_alarms(ctx):
         ctx: Context
 
     Returns:
-        Success: dict: {
+        Success: dict or None: {
             "time": 1551255491,
             "err_level": 0,
             "err_no": 10001,
@@ -38,7 +38,7 @@ def get_latest_alarms(ctx):
         return False
 
     if r[1] is None:
-        return False
+        return None
 
     ret = r[1]
     return {
