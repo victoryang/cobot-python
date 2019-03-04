@@ -104,7 +104,7 @@ def set_virtual_output(ctx, addr, status):
         Success: True
         Failure: False
     """
-    r = ctx.tran.put("/v2/ioservice/io/m/" + str(addr) + "/" + str(status))
+    r = ctx.tran.put("/v2/ioservice/io/virtual/output/" + str(addr) + "/" + str(status))
 
     if r[0] != 200:
         return False
