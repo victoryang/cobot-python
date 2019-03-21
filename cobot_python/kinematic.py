@@ -1,77 +1,78 @@
 #!/usr/bin/env python
 
+# -*- coding: utf-8 -*-
+"""
+
+This module contains the interfaces of Kinematics Service
+
+"""
+
 import context
 
 def inverse_kinematic(ctx, pose):
-    """inverse kinematic function
+    """逆解函数，根据位姿信息得到对应的机械臂关节角信息
+
     Args:
-        ctx: Context
-        pose: list: pose info
+        ctx (context.Context): 登陆上下文
+        pose (list): 位姿信息
 
     Returns:
-        Success: list: Pose info
-        Failure: False
+        Success (list): 关节角信息
+        Failure (None): None
     """
-    r = ctx.tran.post("/v2/kinematicsservice/inversekinematic", pose)
-    if r[0] != 200:
-        return False
 
-    return r[1]
+    return ctx.tran.post("/v2/kinematicsservice/inversekinematic", pose)["data"]
 
 def positive_kinematic(ctx, pos):
-    """positive kinematic function
+    """正解函数，根据机械臂关节角信息得到对应的位姿信息
+
     Args:
-        ctx: Context
-        pos: list: pos info
+        ctx (context.Context): 登陆上下文
+        pose (list): 关节角信息
 
     Returns:
-        Success: list: Pos info
-        Failure: False
+        Success (list): 位姿信息
+        Failure (None): None
     """
-    r = ctx.tran.post("/v2/kinematicsservice/positivekinematic", pose)
-    if r[0] != 200:
-        return False
 
-    return r[1]
+    return ctx.tran.post("/v2/kinematicsservice/positivekinematic", pose)["data"]
 
 def base2user(ctx, pose, user_no=-1):
-    """positive kinematic function
+    """基坐标到用户坐标位姿转化函数，当前用户坐标系下，根据基坐标的位姿信息得到对应用户坐标系下的位姿信息
+
     Args:
-        ctx: Context
-        pose: list: pose info
-        user_no: int: user no, optional
+        ctx (context.Context): 登陆上下文
+        pose (list): 基坐标系下的位姿信息
+        user_no (int, optional): 用户坐标号，指向用户坐标系
 
     Returns:
-        Success: list: Pose info
-        Failure: False
+        Success (list): 用户坐标系下的位姿信息
+        Failure (None): None
     """
+
     data = {
         "pose": pose,
         "userNo": user_no
     }
-    r = ctx.tran.post("/v2/kinematicsservice/base2user", data)
-    if r[0] != 200:
-        return False
 
-    return r[1]
+    return ctx.tran.post("/v2/kinematicsservice/base2user", data)["data"]
 
 def user2base(ctx, pose, user_no=-1):
-    """positive kinematic function
+    """用户坐标到基坐标位姿转化，当前用户坐标系下，根据用户坐标的位姿信息得到对应基坐标系下的位姿信息
+
     Args:
-        ctx: Context
-        pose: list: pose info
-        user_no: int: user no, optional
+        ctx (context.Context): 登陆上下文
+        pose (list): 用户坐标系下的位姿信息
+        user_no (int, optional): 用户坐标号，指向用户坐标系
 
     Returns:
-        Success: list: Pose info
-        Failure: False
+        Success (list): 基坐标系下的位姿信息
+        Failure (None): None
     """
+
     data = {
         "pose": pose,
         "userNo": user_no
     }
-    r = ctx.tran.post("/v2/kinematicsservice/base2user", data)
-    if r[0] != 200:
-        return False
 
-    return r[1]
+    return ctx.tran.post("/v2/kinematicsservice/base2user", data)["data"]

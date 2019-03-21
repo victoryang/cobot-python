@@ -39,7 +39,20 @@ class Transport(object):
         except:
             resp = None
 
-        return r.status_code, resp
+        if r.status_code == 200:
+            return {
+                "success": True,
+                "data": resp,
+                "ecode": 0,
+                "emsg": "",
+            }
+
+        return {
+            "success": False,
+            "data": None,
+            "ecode": r.status_code,
+            "emsg": "request error",
+        }
 
     def __request_common_handle(self, data, kwargs):
         if data:

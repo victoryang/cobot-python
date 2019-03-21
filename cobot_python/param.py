@@ -1,8 +1,15 @@
 #!/usr/bin/env python
 
+# -*- coding: utf-8 -*-
+"""
+
+This module contains the interfaces of Param Service
+
+"""
+
 import context
 
-# Robot state code
+# 机器人状态
 ROBOT_STATE_STOP = 0
 ROBOT_STATE_PAUSE = 1
 ROBOT_STATE_EMESTOP = 2
@@ -10,43 +17,37 @@ ROBOT_STATE_RUNNING = 3
 ROBOT_STATE_ERROR = 4
 
 def get_robot_state(ctx):
-    """Get robot state
+    """ 获取机器人状态
+
     Args:
-        ctx: Context
+        ctx (context.Context): 登陆上下文
 
     Returns:
-        Success: int: robot state code
-        Failure: False
+        Success (int): 机器人状态
+        Failure (None): None
     """
-    r = ctx.tran.get("/v2/paramservice/robot/state")
 
-    if r[0] != 200:
-        return False
+    return ctx.tran.get("/v2/paramservice/robot/state")["data"]
 
-    return r[1]
-
-# Robot mode code
+# 机器人模式
 ROBOT_MODE_TEACH = 0
 ROBOT_MODE_PLAY = 1
 ROBOT_MODE_REMOTE = 2
 
 def get_robot_mode(ctx):
-    """Get robot mode
+    """获取机器人模式
+
     Args:
-        ctx: Context
+        ctx (context.Context): 登陆上下文
 
     Returns:
-        Success: int: robot mode code
-        Failure: False
+        Success (int): 机器人模式
+        Failure (None): None
     """
-    r = ctx.tran.get("/v2/paramservice/robot/mode")
 
-    if r[0] != 200:
-        return False
+    return ctx.tran.get("/v2/paramservice/robot/mode")["data"]
 
-    return r[1]
-
-# Robot mode map
+# 机器人模式
 ROBOT_MODE = {
     ROBOT_MODE_TEACH: "teach",
     ROBOT_MODE_PLAY: "play",
@@ -54,10 +55,11 @@ ROBOT_MODE = {
 }
 
 def set_robot_mode(ctx, mode):
-    """Set robot mode
+    """设置机器人模式
+
     Args:
-        ctx: Context
-        mode: int: robot mode code
+        ctx (context.Context): 登陆上下文
+        mode (int): 机器人模式
 
     Retures:
         Success: True
@@ -66,106 +68,77 @@ def set_robot_mode(ctx, mode):
     if mode not in ROBOT_MODE:
         return False
 
-    r = ctx.tran.put("/v2/paramservice/robot/mode/" + ROBOT_MODE[mode])
-
-    if r[0] != 200:
-        return False
-
-    return r[1]
+    return ctx.tran.put("/v2/paramservice/robot/mode/" + ROBOT_MODE[mode])["success"]
 
 def get_robot_pos(ctx):
-    """Get robot position
+    """获取机器人当前位置信息
     Args:
-        ctx: Context
+        ctx (context.Context): 登陆上下文
 
     Retures:
-        Success: Robot pos, [0,90,0,0,0,0,0,0]
-        Failure: False
+        Success (sequence, 8): 机器人位置
+        Failure (None): None
     """
-    r = ctx.tran.get("/v2/paramservice/robot/pos")
 
-    if r[0] != 200:
-        print False
-
-    return r[1]
+    return ctx.tran.get("/v2/paramservice/robot/pos")["data"]
 
 def get_robot_pose(ctx):
-    """Get robot pose
+    """获取机器人当前位姿数据
     Args:
-        ctx: Context
+        ctx (context.Context): 登陆上下文
 
     Retures:
-        Success: Robot pos, [0,0,0,0,0,0]
-        Failure: False
+        Success (sequence, 8): 机器人位姿
+        Failure (None): None
     """
-    r = ctx.tran.get("/v2/paramservice/robot/pos")
 
-    if r[0] != 200:
-        print False
-
-    return r[1]
+    return ctx.tran.get("/v2/paramservice/robot/pos")["data"]
 
 def get_servo_status(ctx):
-    """Get servo status
+    """获取机械臂伺服状态
     Args:
-        ctx: Context
+        ctx (context.Context): 登陆上下文
 
     Retures:
-        Success: True
-        Failure: False
+        Success (int): 伺服状态
+        Failure (None): None
     """
-    r = ctx.tran.get("/v2/paramservice/servo/status")
 
-    if r[0] != 200:
-        print False
-
-    return r[1]
+    return ctx.tran.get("/v2/paramservice/servo/status")["data"]
 
 def get_motor_status(ctx):
-    """Get motor status
+    """获取机械臂上下电状态
     Args:
-        ctx: Context
+        ctx (context.Context): 登陆上下文
 
     Retures:
-        Success: True
-        Failure: False
+        Success (int): 上下电状态
+        Failure (None): None
     """
-    r = ctx.tran.get("/v2/paramservice/motor/status")
 
-    if r[0] != 200:
-        print False
-
-    return r[1]
+    return ctx.tran.get("/v2/paramservice/motor/status")["data"]
 
 def get_play_speed(ctx):
-    """Get robot play speed info
+    """获取机器人运行速度
     Args:
-        ctx: Context
+        ctx (context.Context): 登陆上下文
 
     Retures:
-        Success: speed, type int
-        Failure: False
+        Success (int): 机器人运行速度
+        Failure (None): None
     """
-    r = ctx.tran.get("/v2/paramservice/robot/playspeed")
 
-    if r[0] != 200:
-        print False
-
-    return r[1]
+    return ctx.tran.get("/v2/paramservice/robot/playspeed")["data"]
 
 def set_play_speed(ctx, speed):
-    """Set robot play speed
+    """设置机器人运行速度
     Args:
-        ctx: Context
-        speed: int: play speed
+        ctx (context.Context): 登陆上下文
+        speed (int): 机器人运行速度
 
     Retures:
         Success: True
         Failure: False
     """
-    r = ctx.tran.put("/v2/paramservice/robot/playspeed/" + str(speed))
 
-    if r[0] != 200:
-        print False
-
-    return r[1]
+    return ctx.tran.put("/v2/paramservice/robot/playspeed/" + str(speed))["success"]

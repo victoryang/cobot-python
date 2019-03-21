@@ -1,58 +1,86 @@
 #!/usr/bin/env python
 
+# -*- coding: utf-8 -*-
+"""
+
+This module contains the definition of Object Context.
+Context wraps the details for network communication and other
+specific infomations that you should not care about.
+
+"""
+
 import transport
 import base64
 
 class Context(object):
-	"""Context Class provide initialization of robot.
-    Contains information of robot controller, like communition address information.
+    """登陆及操作时的上下文
 
     Attributes:
-        tran: A transport instance for actual network communication
-    """
+        tran (transport.Transport): 负责实际的数据传输，保存
+            用户信息等信息
 
+    """
     tran = None
 
     def __init__(self, addr, port):
-    	"""Init Context with address and port."""
+        """Context's __init__ method
+
+        Args:
+            addr (str): 目标机械臂控制系统的IP地址
+            port (int): 服务端口号，目前默认9000
+
+        Attributes:
+            __addr (str): 目标机械臂控制系统的IP地址
+            __port (int): 服务端口号，目前默认9000
+        """
+
         self.__addr = addr
         self.__port = port
         addr = addr + ":" + str(port)
         self.tran = transport.Transport(addr)
 
+
     def is_login(self):
-    	"""Check current login status"""
+        """检查当前登陆状态"""
+
         return self.tran.is_login
 
+
     def login(self, username, password):
-    	"""Login with username and password.
-        Connects to robot controller with username and password.
+        """登陆控制器系统
+
+        与机器人控制系统建立连接并获得授权
+
         Args:
-            username: string: username
-            password: string: password
+            username (str): 登陆用户名
+            password (str): 用户密码
 
         Returns:
-            Success: 0
-            Failure: Other
+            Success: True
+            Failure: False
         """
+
         kwargs = {
-        	"params": {
-        		"username": username,
-        		"pwd": base64.urlsafe_b64encode(password)
-        	}
+            "params": {
+                "username": username,
+                "pwd": base64.urlsafe_b64encode(password)
+            }
         }
 
         r = self.tran.post("/v1/login", **kwargs)
-        if r[0] != 200:
-            print "login fails"
-            return
+        if r["success"] == False:
+            return False
 
         self.tran.token = r[1]
-        print "login success"
-        return
+        return True
 
     def logout(self):
-    	"""To log out."""
+        """退出登陆
+
+        与机器人控制系统建立断开连接并取消授权
+
+        """
+
         if self.is_login():
             self.tran.post("/v1/logout")
 
@@ -60,15 +88,14 @@ class Context(object):
         self.tran = None
 
     def check_health(self):
-    	"""Check if robot controller system still works
+        """检查机械臂控制系统健康状态
+
         Returns:
-            Success: 0
-            Failure: Other
+            Success: True
+            Failure: False
+
         """
+
         r = self.tran.get("/health")
 
-        if r[0] != 200:
-            print "peer not respond"
-            return
-
-        print r[1]
+        return self.tran.get("/health")["success"]

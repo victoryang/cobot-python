@@ -1,29 +1,35 @@
 #!/usr/bin/env python
 
+# -*- coding: utf-8 -*-
+"""
+
+This module contains the interfaces of Alarm Service
+
+"""
+
 import context
 
 def reset(ctx):
-    """Reset alarm info
+    """复位操作
+
     Args:
-        ctx: Context
+        ctx (context.Context): 登陆上下文
 
     Returns:
         Success: True
         Failure: False
     """
-    r = ctx.tran.post("/v2/alarmservice/robot/reset")
-    if r[0] != 200:
-        return False
 
-    return r[1]
+    return ctx.tran.post("/v2/alarmservice/robot/reset")["success"]
 
 def get_latest_alarms(ctx):
-    """Get latest alarm info
+    """获取最新的报警信息
+
     Args:
-        ctx: Context
+        ctx (context.Context): 登陆上下文
 
     Returns:
-        Success: dict or None: {
+        Success (dict): 报警信息列表 {
             "time": 1551255491,
             "err_level": 0,
             "err_no": 10001,
@@ -31,16 +37,14 @@ def get_latest_alarms(ctx):
             "message": "get arc weld data error"
 
         }
-        Failure: False
+        Failure (None): None
     """
     r = ctx.tran.get("/v2/alarmservice/alarms/latest")
-    if r[0] != 200:
-        return False
 
-    if r[1] is None:
+    if r["data"] is None:
         return None
 
-    ret = r[1]
+    ret = r["data"]
     return {
         "time": ret["time"],
         "err_level": ret["errLevel"],

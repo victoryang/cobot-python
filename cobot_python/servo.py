@@ -26,12 +26,8 @@ def power(ctx):
         Success: True
         Failure: False
     """
-    r = ctx.tran.post("/v1/robot/axisctrl/sync")
 
-    if r[0] != 200:
-        return False
-
-    return r[1]
+    return ctx.tran.post("/v1/robot/axisctrl/sync")["success"]
 
 def startup(ctx):
     """Start servo
@@ -45,12 +41,8 @@ def startup(ctx):
     data = {
         "args": ["-f"]
     }
-    r = ctx.tran.post("/v1/robot/axisctrl/servo/on", data)
 
-    if r[0] != 200:
-        return False
-
-    return r[1]
+    return ctx.tran.post("/v1/robot/axisctrl/servo/on", data)["success"]
 
 def shutdown(ctx):
     """Shut down servo
@@ -64,9 +56,5 @@ def shutdown(ctx):
     data = {
         "args": ["-f"]
     }
-    r = ctx.tran.post("/v1/robot/axisctrl/servo/off", data)
-
-    if r[0] != 200:
-        return False
-
-    return r[1]
+    
+    return ctx.tran.post("/v1/robot/axisctrl/servo/off", data)["success"]
