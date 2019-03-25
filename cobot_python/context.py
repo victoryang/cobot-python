@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-
 # -*- coding: utf-8 -*-
+
 """
 
 This module contains the definition of Object Context.
@@ -40,7 +40,7 @@ class Context(object):
         self.tran = transport.Transport(addr)
 
 
-    def is_login(self):
+    def _is_login(self):
         """检查当前登陆状态"""
 
         return self.tran.is_login
@@ -71,7 +71,7 @@ class Context(object):
         if r["success"] == False:
             return False
 
-        self.tran.token = r[1]
+        self.tran.token = r["data"]
         return True
 
     def logout(self):
@@ -81,7 +81,7 @@ class Context(object):
 
         """
 
-        if self.is_login():
+        if self._is_login():
             self.tran.post("/v1/logout")
 
         self.tran.token = ""
@@ -95,7 +95,5 @@ class Context(object):
             Failure: False
 
         """
-
-        r = self.tran.get("/health")
 
         return self.tran.get("/health")["success"]

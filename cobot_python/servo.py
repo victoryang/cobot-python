@@ -1,4 +1,11 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+
+This module contains the interfaces of Servo Service
+
+"""
 
 import context
 
@@ -18,9 +25,10 @@ def get_user_list(ctx):
     print r[1]["users"]
 
 def power(ctx):
-    """Power on servo
+    """伺服系统上下电
+
     Args:
-        ctx: Context
+        ctx (context.Context): 登陆上下文
 
     Returns:
         Success: True
@@ -30,14 +38,16 @@ def power(ctx):
     return ctx.tran.post("/v1/robot/axisctrl/sync")["success"]
 
 def startup(ctx):
-    """Start servo
+    """启动伺服
+
     Args:
-        ctx: Context
+        ctx (context.Context): 登陆上下文
 
     Returns:
         Success: True
         Failure: False
     """
+
     data = {
         "args": ["-f"]
     }
@@ -45,16 +55,17 @@ def startup(ctx):
     return ctx.tran.post("/v1/robot/axisctrl/servo/on", data)["success"]
 
 def shutdown(ctx):
-    """Shut down servo
+    """关闭伺服
     Args:
-        ctx: Context
+        ctx (context.Context): 登陆上下文
 
     Returns:
         Success: True
         Failure: False
     """
+
     data = {
         "args": ["-f"]
     }
-    
+
     return ctx.tran.post("/v1/robot/axisctrl/servo/off", data)["success"]

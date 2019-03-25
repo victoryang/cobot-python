@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-
 # -*- coding: utf-8 -*-
+
 """
 
 This module contains the interfaces of Alarm Service
@@ -29,26 +29,15 @@ def get_latest_alarms(ctx):
         ctx (context.Context): 登陆上下文
 
     Returns:
-        Success (dict): 报警信息列表 {
+        Success (list): 报警信息列表 [{
             "time": 1551255491,
-            "err_level": 0,
-            "err_no": 10001,
-            "sub_err_no": 0,
+            "errLevel": 0,
+            "errNo": 10001,
+            "subErrNo": 0,
             "message": "get arc weld data error"
 
-        }
+        }]
         Failure (None): None
     """
-    r = ctx.tran.get("/v2/alarmservice/alarms/latest")
 
-    if r["data"] is None:
-        return None
-
-    ret = r["data"]
-    return {
-        "time": ret["time"],
-        "err_level": ret["errLevel"],
-        "err_no": ret["errNo"],
-        "sub_err_no": ret["subErrNo"],
-        "message": ret["message"]
-    }
+    return ctx.tran.get("/v2/alarmservice/alarms/latest")["data"]

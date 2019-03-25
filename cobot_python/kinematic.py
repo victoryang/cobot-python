@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-
 # -*- coding: utf-8 -*-
+
 """
 
 This module contains the interfaces of Kinematics Service
