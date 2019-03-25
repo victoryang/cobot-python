@@ -11,7 +11,10 @@ from cobot_python import alarm
 
 ctx = context.Context("192.168.1.253", 9000)
 
-ctx.login("Admin", "333333")
+ret = ctx.login("Admin", "333333")
+if ret == False:
+    print 'login fail'
+    exit(-1)
 
 print ctx.tran.token
 
