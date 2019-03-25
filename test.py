@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from elt import context
-from elt import param
-from elt import servo
-from elt import io
-from elt import kinematics
-from elt import movement
-from elt import alarm
+from cobot_python import context
+from cobot_python import param
+from cobot_python import servo
+from cobot_python import io
+from cobot_python import kinematics
+from cobot_python import movement
+from cobot_python import alarm
 
 ctx = context.Context("192.168.1.253", 9000)
 
