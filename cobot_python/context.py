@@ -85,6 +85,8 @@ class Context(object):
             self.tran.post("/v1/logout")
 
         self.tran.token = ""
+
+    def __del__(self):
         self.tran = None
 
     def check_health(self):
