@@ -6,12 +6,50 @@ import json
 DefaultTimeOut = 3
 DefaultSchema = "http://"
 
+def url(addr, path):
+    return DefaultSchema + addr + path
+
+def request_common_handle(token, data, kwargs):
+    if data:
+        kwargs["data"] = json.dumps(data)
+
+    headers = {}
+    headers["Content-Type"] = "application/json"
+    headers["Accept"] = "application/json"
+
+    if token:
+        headers["Authorization"] = "bearer " + token
+            
+    kwargs["headers"] = headers
+    kwargs["timeout"] = DefaultTimeOut
+
+def handle_response(r):
+    try:
+        resp = r.json()
+    except:
+        resp = None
+
+    if r.status_code == 200:
+        return {
+            "success": True,
+            "data": resp,
+            "ecode": 0,
+            "emsg": "",
+        }
+
+    return {
+        "success": False,
+        "data": None,
+        "ecode": r.status_code,
+        "emsg": "request error",
+    }
+
 class Transport(object):
 
-    token = ""
+    _token = ""
 
     def __init__(self, addr):
-        self.__addr = DefaultSchema + addr
+        self.__addr = addr
 
     @property
     def addr(self):
@@ -19,72 +57,44 @@ class Transport(object):
 
     @property
     def is_login(self):
-        return self.token != ""
+        return self._token != ""
 
-    def __url(self, path):
-        return self.addr + path
+    @property
+    def token():
+        return self._token
 
-    def __get_standard_header(self):
-        headers = {}
-        headers["Content-Type"] = "application/json"
-        headers["Accept"] = "application/json"
-        if self.is_login:
-            headers["Authorization"] = "bearer " + self.token
-
-        return headers
-
-    def __handle_response(self, r):
-        try:
-            resp = r.json()
-        except:
-            resp = None
-
-        if r.status_code == 200:
-            return {
-                "success": True,
-                "data": resp,
-                "ecode": 0,
-                "emsg": "",
-            }
-
-        return {
-            "success": False,
-            "data": None,
-            "ecode": r.status_code,
-            "emsg": "request error",
-        }
-
-    def __request_common_handle(self, data, kwargs):
-        if data:
-            kwargs["data"] = json.dumps(data)
-
-        kwargs["headers"] = self.__get_standard_header()
-        kwargs["timeout"] = DefaultTimeOut
+    @token.setter
+    def token():
+        self._token = ""
 
     def get(self, path, **kwargs):
-        self.__request_common_handle(None, kwargs)
 
-        r = requests.get(self.__url(path), **kwargs)
+        request_common_handle(self.token, None, kwargs)
 
-        return self.__handle_response(r)
+        r = requests.get(url(self.addr, path), **kwargs)
+
+        return handle_response(r)
 
     def post(self, path, *data, **kwargs):
-        self.__request_common_handle(data, kwargs)
 
-        r = requests.post(self.__url(path), **kwargs)
+        request_common_handle(self.token, data, kwargs)
 
-        return self.__handle_response(r)
+        r = requests.post(url(self.addr, path), **kwargs)
+
+        return handle_response(r)
 
     def put(self, path, *data, **kwargs):
-        self.__request_common_handle(data, kwargs)
 
-        r = requests.put(self.__url(path), **kwargs)
+        request_common_handle(self.token, data, kwargs)
 
-        return self.__handle_response(r)
+        r = requests.put(url(self.addr, path), **kwargs)
+
+        return handle_response(r)
 
     def delete(self, path, **kwargs):
-        self.__request_common_handle(None, kwargs)
 
-        r = requests.delete(self.__url(path), **kwargs)
+        request_common_handle(self.token, None, kwargs)
 
-        return self.__handle_response(r)
+        r = requests.delete(url(self.addr, path), **kwargs)
+
+        return handle_response(r)

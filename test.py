@@ -5,7 +5,7 @@ from cobot_python import context
 from cobot_python import param
 from cobot_python import servo
 from cobot_python import io
-from cobot_python import kinematics
+from cobot_python import kinematic
 from cobot_python import movement
 from cobot_python import alarm
 
