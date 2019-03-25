@@ -64,8 +64,8 @@ class Transport(object):
         return self._token
 
     @token.setter
-    def token(self):
-        self._token = ""
+    def token(self, val):
+        self._token = val
 
     def get(self, path, **kwargs):
 
