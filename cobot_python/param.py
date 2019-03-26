@@ -8,6 +8,13 @@ This module contains the interfaces of Param Service
 """
 
 import context
+import types
+
+# 轴数
+ROBOT_AXIS_COUNT = 8
+
+# 位姿
+ROBOT_POSE_SIZE = 6
 
 # 机器人状态
 ROBOT_STATE_STOP = 0
@@ -23,7 +30,7 @@ def get_robot_state(ctx):
         ctx (context.Context): 登陆上下文
 
     Returns:
-        Success (int): 机器人状态
+        Success (int): 机器人状态, [ROBOT_STATE_STOP, ROBOT_STATE_PAUSE, ROBOT_STATE_EMESTOP, ROBOT_STATE_RUNNING, ROBOT_STATE_ERROR]
         Failure (None): None
     """
 
@@ -41,34 +48,27 @@ def get_robot_mode(ctx):
         ctx (context.Context): 登陆上下文
 
     Returns:
-        Success (int): 机器人模式
+        Success (int): 机器人模式, [ROBOT_MODE_TEACH, ROBOT_MODE_PLAY, ROBOT_MODE_REMOTE]
         Failure (None): None
     """
 
     return ctx.tran.request("GET", "/v2/paramservice/robot/mode")["data"]
-
-# 机器人模式
-ROBOT_MODE = {
-    ROBOT_MODE_TEACH: "teach",
-    ROBOT_MODE_PLAY: "play",
-    ROBOT_MODE_REMOTE: "remote"
-}
 
 def set_robot_mode(ctx, mode):
     """设置机器人模式
 
     Args:
         ctx (context.Context): 登陆上下文
-        mode (int): 机器人模式
+        mode (str): 机器人模式, ["teach", "play", "remote"]
 
     Retures:
         Success: True
         Failure: False
     """
-    if mode not in ROBOT_MODE:
-        return False
 
-    return ctx.tran.request("PUT", "/v2/paramservice/robot/mode/" + ROBOT_MODE[mode])["success"]
+    assert mode in ["teach", "play", "remote"]
+
+    return ctx.tran.request("PUT", "/v2/paramservice/robot/mode/" + mode)["success"]
 
 def get_robot_pos(ctx):
     """获取机器人当前位置信息
@@ -140,5 +140,7 @@ def set_play_speed(ctx, speed):
         Success: True
         Failure: False
     """
+
+    assert type(speed) == types.IntType
 
     return ctx.tran.request("PUT", "/v2/paramservice/robot/playspeed/" + str(speed))["success"]

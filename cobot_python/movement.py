@@ -23,6 +23,11 @@ def joint_move(ctx, target_pos, speed):
         Failure: False
     """
 
+    assert type(target_pos) == types.ListType
+    assert len(target_pos) == param.ROBOT_AXIS_COUNT
+    assert type(speed) == types.FloatType
+    assert speed>=1 and speed<=100
+
     kwargs = {
         "data": {
             "targetPos": target_pos,
@@ -44,6 +49,11 @@ def line_move(ctx, target_pos, speed):
         Success: True
         Failure: False
     """
+
+    assert type(target_pos) == types.ListType
+    assert len(target_pos) == param.ROBOT_AXIS_COUNT
+    assert type(speed) == types.FloatType
+    assert speed>=1 and speed<=3000
 
     kwargs = {
         "data": {
@@ -68,6 +78,13 @@ def arc_move(ctx, mid_pos, target_pos, speed):
         Failure: False
     """
 
+    assert type(mid_pos) == types.ListType
+    assert len(mid_pos) == param.ROBOT_AXIS_COUNT
+    assert type(target_pos) == types.ListType
+    assert len(target_pos) == param.ROBOT_AXIS_COUNT
+    assert type(speed) == types.FloatType
+    assert speed>=1 and speed<=3000
+
     kwargs = {
         "data": {
             "midPos": mid_pos,
@@ -91,6 +108,10 @@ def rotate_move(ctx, target_pos, speed):
         Failure: False
     """
 
+    assert type(target_pos) == types.ListType
+    assert len(target_pos) == param.ROBOT_AXIS_COUNT
+    assert type(speed) == types.FloatType
+
     kwargs = {
         "data": {
             "targetPos": target_pos,
@@ -112,6 +133,8 @@ def set_waypoint_max_joint_speed(ctx, speed):
         Failure: False
     """
 
+    assert type(speed) == types.FloatType
+
     return ctx.tran.request("PUT", "/v2/movementservice/robot/movement/waypoints/maxjoinspeed/"+ str(speed))["success"]
 
 def set_waypoint_max_line_speed(ctx, speed):
@@ -125,6 +148,9 @@ def set_waypoint_max_line_speed(ctx, speed):
         Success: True
         Failure: False
     """
+
+    assert type(speed) == types.FloatType
+    assert speed >=1 and speed <=3000
 
     return ctx.tran.request("PUT", "/v2/movementservice/robot/movement/waypoints/maxlinespeed/"+ str(speed))["success"]
 
@@ -140,6 +166,8 @@ def set_waypoint_max_rotate_speed(ctx, speed):
         Failure: False
     """
 
+    assert type(speed) == types.FloatType
+
     return ctx.tran.request("PUT", "/v2/movementservice/robot/movement/waypoints/maxrotatespeed/"+ str(speed))["success"]
 
 def add_waypoint(ctx, target_pos):
@@ -154,7 +182,16 @@ def add_waypoint(ctx, target_pos):
         Failure: False
     """
 
-    return ctx.tran.request("POST", "/v2/movementservice/robot/movement/waypoints", target_pos)["success"]
+    assert type(target_pos) == types.ListType
+    assert len(target_pos) == param.ROBOT_AXIS_COUNT
+
+    kwargs = {
+        "data": {
+            "targetPos": target_pos
+        }
+    }
+
+    return ctx.tran.request("POST", "/v2/movementservice/robot/movement/waypoints", **kwargs)["success"]
 
 def clear_waypoint(ctx):
     """清除路点信息
@@ -184,8 +221,14 @@ def track_move(ctx, target_pos, move_type, pl):
         Failure: False
     """
 
+    assert type(target_pos) == types.ListType
+    assert len(target_pos) == param.ROBOT_AXIS_COUNT
+    assert type(move_type) == types.IntType
+    assert type(pl) == types.IntType
+
     kwargs = {
         "data": {
+            "targetPos": target_pos,
             "moveType": move_type,
             "pl": pl
         }

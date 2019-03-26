@@ -11,6 +11,7 @@ specific infomations that you should not care about.
 
 import transport
 import base64
+import types
 
 class Context(object):
     """登陆及操作时的上下文
@@ -33,6 +34,9 @@ class Context(object):
             __addr (str): 目标机械臂控制系统的IP地址
             __port (int): 服务端口号，目前默认9000
         """
+
+        assert type(addr) == types.StringType
+        assert type(port) == types.IntType
 
         self.__addr = addr
         self.__port = port
@@ -59,6 +63,9 @@ class Context(object):
             Success: True
             Failure: False
         """
+
+        assert type(username) == types.StringType
+        assert type(password) == types.StringType
 
         kwargs = {
             "params": {

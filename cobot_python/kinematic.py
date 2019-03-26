@@ -8,18 +8,23 @@ This module contains the interfaces of Kinematics Service
 """
 
 import context
+import param
+import types
 
 def inverse_kinematic(ctx, pose):
     """逆解函数，根据位姿信息得到对应的机械臂关节角信息
 
     Args:
         ctx (context.Context): 登陆上下文
-        pose (list): 位姿信息
+        pose (list): 位姿信息, [0,90,0,90,0,90]
 
     Returns:
         Success (list): 关节角信息
         Failure (None): None
     """
+
+    assert type(pose) == types.ListType
+    assert len(pose) == param.ROBOT_POSE_SIZE
 
     kwargs = {
         "data": pose
@@ -32,12 +37,15 @@ def positive_kinematic(ctx, pos):
 
     Args:
         ctx (context.Context): 登陆上下文
-        pos (list): 关节角信息
+        pos (list): 关节角信息, [0,90,0,90,0,90,0,90]
 
     Returns:
         Success (list): 位姿信息
         Failure (None): None
     """
+
+    assert type(pos) == types.ListType
+    assert len(pos) == param.ROBOT_AXIS_COUNT
 
     kwargs = {
         "data": pos
@@ -57,6 +65,10 @@ def base2user(ctx, pose, user_no=-1):
         Success (list): 用户坐标系下的位姿信息
         Failure (None): None
     """
+
+    assert type(pose) == types.ListType
+    assert len(pose) == param.ROBOT_POSE_SIZE
+    assert type(user_no) == types.IntType
 
     kwargs = {
         "data": {
@@ -79,6 +91,10 @@ def user2base(ctx, pose, user_no=-1):
         Success (list): 基坐标系下的位姿信息
         Failure (None): None
     """
+
+    assert type(pose) == types.ListType
+    assert len(pose) == param.ROBOT_POSE_SIZE
+    assert type(user_no) == types.IntType
 
     kwargs = {
         "data": {
