@@ -73,7 +73,7 @@ class Transport(object):
 
         try:
             return handle_response(requests.request(method, url(self.addr, path), **kwargs))
-        except e:
+        except:
             return {
                 "success": False,
                 "data": None,
