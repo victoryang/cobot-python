@@ -27,7 +27,7 @@ def get_robot_state(ctx):
         Failure (None): None
     """
 
-    return ctx.tran.get("/v2/paramservice/robot/state")["data"]
+    return ctx.tran.request("GET", "/v2/paramservice/robot/state")["data"]
 
 # 机器人模式
 ROBOT_MODE_TEACH = 0
@@ -45,7 +45,7 @@ def get_robot_mode(ctx):
         Failure (None): None
     """
 
-    return ctx.tran.get("/v2/paramservice/robot/mode")["data"]
+    return ctx.tran.request("GET", "/v2/paramservice/robot/mode")["data"]
 
 # 机器人模式
 ROBOT_MODE = {
@@ -68,7 +68,7 @@ def set_robot_mode(ctx, mode):
     if mode not in ROBOT_MODE:
         return False
 
-    return ctx.tran.put("/v2/paramservice/robot/mode/" + ROBOT_MODE[mode])["success"]
+    return ctx.tran.request("PUT", "/v2/paramservice/robot/mode/" + ROBOT_MODE[mode])["success"]
 
 def get_robot_pos(ctx):
     """获取机器人当前位置信息
@@ -80,7 +80,7 @@ def get_robot_pos(ctx):
         Failure (None): None
     """
 
-    return ctx.tran.get("/v2/paramservice/robot/pos")["data"]
+    return ctx.tran.request("GET", "/v2/paramservice/robot/pos")["data"]
 
 def get_robot_pose(ctx):
     """获取机器人当前位姿数据
@@ -92,7 +92,7 @@ def get_robot_pose(ctx):
         Failure (None): None
     """
 
-    return ctx.tran.get("/v2/paramservice/robot/pos")["data"]
+    return ctx.tran.request("GET", "/v2/paramservice/robot/pos")["data"]
 
 def get_servo_status(ctx):
     """获取机械臂伺服状态
@@ -104,7 +104,7 @@ def get_servo_status(ctx):
         Failure (None): None
     """
 
-    return ctx.tran.get("/v2/paramservice/servo/status")["data"]
+    return ctx.tran.request("GET", "/v2/paramservice/servo/status")["data"]
 
 def get_motor_status(ctx):
     """获取机械臂上下电状态
@@ -116,7 +116,7 @@ def get_motor_status(ctx):
         Failure (None): None
     """
 
-    return ctx.tran.get("/v2/paramservice/motor/status")["data"]
+    return ctx.tran.request("GET", "/v2/paramservice/motor/status")["data"]
 
 def get_play_speed(ctx):
     """获取机器人运行速度
@@ -128,7 +128,7 @@ def get_play_speed(ctx):
         Failure (None): None
     """
 
-    return ctx.tran.get("/v2/paramservice/robot/playspeed")["data"]
+    return ctx.tran.request("GET", "/v2/paramservice/robot/playspeed")["data"]
 
 def set_play_speed(ctx, speed):
     """设置机器人运行速度
@@ -141,4 +141,4 @@ def set_play_speed(ctx, speed):
         Failure: False
     """
 
-    return ctx.tran.put("/v2/paramservice/robot/playspeed/" + str(speed))["success"]
+    return ctx.tran.request("PUT", "/v2/paramservice/robot/playspeed/" + str(speed))["success"]

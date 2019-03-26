@@ -67,7 +67,7 @@ class Context(object):
             }
         }
 
-        r = self.tran.post("/v1/login", **kwargs)
+        r = self.tran.request("POST","/v1/login", **kwargs)
         if r["success"] == False:
             return False
 
@@ -82,7 +82,7 @@ class Context(object):
         """
 
         if self._is_login():
-            self.tran.post("/v1/logout")
+            self.tran.request("POST", "/v1/logout")
 
         self.tran.token = ""
 
@@ -98,4 +98,4 @@ class Context(object):
 
         """
 
-        return self.tran.get("/health")["success"]
+        return self.tran.request("GET", "/health")["success"]

@@ -20,7 +20,7 @@ def reset(ctx):
         Failure: False
     """
 
-    return ctx.tran.post("/v2/alarmservice/robot/reset")["success"]
+    return ctx.tran.request("POST", "/v2/alarmservice/robot/reset")["success"]
 
 def get_latest_alarms(ctx):
     """获取最新的报警信息
@@ -40,4 +40,4 @@ def get_latest_alarms(ctx):
         Failure (None): None
     """
 
-    return ctx.tran.get("/v2/alarmservice/alarms/latest")["data"]
+    return ctx.tran.request("GET", "/v2/alarmservice/alarms/latest")["data"]

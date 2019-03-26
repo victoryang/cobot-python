@@ -23,12 +23,14 @@ def joint_move(ctx, target_pos, speed):
         Failure: False
     """
 
-    data = {
-        "targetPos": target_pos,
-        "speed": speed
+    kwargs = {
+        "data": {
+            "targetPos": target_pos,
+            "speed": speed
+        }
     }
 
-    return ctx.tran.post("/v2/movementservice/robot/movement/joint", data)["success"]
+    return ctx.tran.request("POST", "/v2/movementservice/robot/movement/joint", **kwargs)["success"]
 
 def line_move(ctx, target_pos, speed):
     """直线运动
@@ -43,12 +45,14 @@ def line_move(ctx, target_pos, speed):
         Failure: False
     """
 
-    data = {
-        "targetPos": target_pos,
-        "speed": speed
+    kwargs = {
+        "data": {
+            "targetPos": target_pos,
+            "speed": speed
+        }
     }
 
-    return ctx.tran.post("/v2/movementservice/robot/movement/line", data)["success"]
+    return ctx.tran.request("POST", "/v2/movementservice/robot/movement/line", **kwargs)["success"]
 
 def arc_move(ctx, mid_pos, target_pos, speed):
     """圆弧运动, 以机器人当前点作为第一个点，另外给定的两个点构成一个完成圆弧
@@ -64,13 +68,15 @@ def arc_move(ctx, mid_pos, target_pos, speed):
         Failure: False
     """
 
-    data = {
-        "midPos": mid_pos,
-        "targetPos": target_pos,
-        "speed": speed
+    kwargs = {
+        "data": {
+            "midPos": mid_pos,
+            "targetPos": target_pos,
+            "speed": speed
+        }
     }
 
-    return ctx.tran.post("/v2/movementservice/robot/movement/arc", data)["success"]
+    return ctx.tran.request("POST", "/v2/movementservice/robot/movement/arc", **kwargs)["success"]
 
 def rotate_move(ctx, target_pos, speed):
     """旋转运动
@@ -85,12 +91,14 @@ def rotate_move(ctx, target_pos, speed):
         Failure: False
     """
 
-    data = {
-        "targetPos": target_pos,
-        "speed": speed
+    kwargs = {
+        "data": {
+            "targetPos": target_pos,
+            "speed": speed
+        }
     }
 
-    return ctx.tran.post("/v2/movementservice/robot/movement/arc", data)["success"]
+    return ctx.tran.request("POST", "/v2/movementservice/robot/movement/arc", **kwargs)["success"]
 
 def set_waypoint_max_joint_speed(ctx, speed):
     """设置多路点运动时最大关节速度
@@ -104,7 +112,7 @@ def set_waypoint_max_joint_speed(ctx, speed):
         Failure: False
     """
 
-    return ctx.tran.put("/v2/movementservice/robot/movement/waypoints/maxjoinspeed/"+ str(speed))["success"]
+    return ctx.tran.request("PUT", "/v2/movementservice/robot/movement/waypoints/maxjoinspeed/"+ str(speed))["success"]
 
 def set_waypoint_max_line_speed(ctx, speed):
     """设置多路点运动时最大直线速度
@@ -118,7 +126,7 @@ def set_waypoint_max_line_speed(ctx, speed):
         Failure: False
     """
 
-    return ctx.tran.put("/v2/movementservice/robot/movement/waypoints/maxlinespeed/"+ str(speed))["success"]
+    return ctx.tran.request("PUT", "/v2/movementservice/robot/movement/waypoints/maxlinespeed/"+ str(speed))["success"]
 
 def set_waypoint_max_rotate_speed(ctx, speed):
     """设置多路点运动时最大旋转速度
@@ -132,7 +140,7 @@ def set_waypoint_max_rotate_speed(ctx, speed):
         Failure: False
     """
 
-    return ctx.tran.put("/v2/movementservice/robot/movement/waypoints/maxrotatespeed/"+ str(speed))["success"]
+    return ctx.tran.request("PUT", "/v2/movementservice/robot/movement/waypoints/maxrotatespeed/"+ str(speed))["success"]
 
 def add_waypoint(ctx, target_pos):
     """添加路点信息
@@ -146,7 +154,7 @@ def add_waypoint(ctx, target_pos):
         Failure: False
     """
 
-    return ctx.tran.post("/v2/movementservice/robot/movement/waypoints", target_pos)["success"]
+    return ctx.tran.request("POST", "/v2/movementservice/robot/movement/waypoints", target_pos)["success"]
 
 def clear_waypoint(ctx):
     """清除路点信息
@@ -159,7 +167,7 @@ def clear_waypoint(ctx):
         Failure: False
     """
 
-    return ctx.tran.delete("/v2/movementservice/robot/movement/waypoints/all")["success"]
+    return ctx.tran.request("DELETE", "/v2/movementservice/robot/movement/waypoints/all")["success"]
 
 
 def track_move(ctx, target_pos, move_type, pl):
@@ -176,12 +184,14 @@ def track_move(ctx, target_pos, move_type, pl):
         Failure: False
     """
 
-    data = {
-        "moveType": move_type,
-        "pl": pl
+    kwargs = {
+        "data": {
+            "moveType": move_type,
+            "pl": pl
+        }
     }
 
-    return ctx.tran.post("/v2/movementservice/robot/movement/rotate", data)["success"]
+    return ctx.tran.request("POST", "/v2/movementservice/robot/movement/rotate", **kwargs)["success"]
 
 def stop(ctx):
     """停止机器人运行
@@ -194,4 +204,4 @@ def stop(ctx):
         Failure: False
     """
 
-    return ctx.tran.post("/v2/movementservice/robot/movement/stop")["success"]
+    return ctx.tran.request("POST", "/v2/movementservice/robot/movement/stop")["success"]

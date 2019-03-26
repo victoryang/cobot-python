@@ -35,7 +35,7 @@ def power(ctx):
         Failure: False
     """
 
-    return ctx.tran.post("/v1/robot/axisctrl/sync")["success"]
+    return ctx.tran.request("POST", "/v1/robot/axisctrl/sync")["success"]
 
 def startup(ctx):
     """启动伺服
@@ -48,11 +48,13 @@ def startup(ctx):
         Failure: False
     """
 
-    data = {
-        "args": ["-f"]
+    kwargs = {
+        "data": {
+            "args": ["-f"]
+        }
     }
 
-    return ctx.tran.post("/v1/robot/axisctrl/servo/on", data)["success"]
+    return ctx.tran.request("POST", "/v1/robot/axisctrl/servo/on", **kwargs)["success"]
 
 def shutdown(ctx):
     """关闭伺服
@@ -64,8 +66,10 @@ def shutdown(ctx):
         Failure: False
     """
 
-    data = {
-        "args": ["-f"]
+    kwargs = {
+        "data": {
+            "args": ["-f"]
+        }
     }
 
-    return ctx.tran.post("/v1/robot/axisctrl/servo/off", data)["success"]
+    return ctx.tran.request("POST", "/v1/robot/axisctrl/servo/off", **kwargs)["success"]

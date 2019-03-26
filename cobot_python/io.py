@@ -25,7 +25,7 @@ def get_input(ctx, addr):
         Failure (None): None
     """
 
-    return ctx.tran.get("/v2/ioservice/io/input/" + str(addr))["data"]
+    return ctx.tran.request("GET", "/v2/ioservice/io/input/" + str(addr))["data"]
 
 def get_output(ctx, addr):
     """获取输出IO状态
@@ -39,7 +39,7 @@ def get_output(ctx, addr):
         Failure (None): None
     """
 
-    return ctx.tran.get("/v2/ioservice/io/output/" + str(addr))["data"]
+    return ctx.tran.request("GET", "/v2/ioservice/io/output/" + str(addr))["data"]
 
 def set_output(ctx, addr, status):
     """设置输出IO状态
@@ -54,7 +54,7 @@ def set_output(ctx, addr, status):
         Failure: False
     """
 
-    return ctx.tran.put("/v2/ioservice/io/output/" + str(addr) + "/" + str(status))["success"]
+    return ctx.tran.request("PUT", "/v2/ioservice/io/output/" + str(addr) + "/" + str(status))["success"]
 
 def get_virtual_input(ctx, addr):
     """获取虚拟IO输入状态
@@ -68,7 +68,7 @@ def get_virtual_input(ctx, addr):
         Failure (None): None
     """
 
-    return ctx.tran.get("/v2/ioservice/io/virtual/input/" + str(addr))["data"]
+    return ctx.tran.request("GET", "/v2/ioservice/io/virtual/input/" + str(addr))["data"]
 
 def get_virtual_output(ctx, addr):
     """获取虚拟IO输出状态
@@ -82,7 +82,7 @@ def get_virtual_output(ctx, addr):
         Failure (None): None
     """
 
-    return ctx.tran.get("/v2/ioservice/io/virtual/output/" + str(addr))["data"]
+    return ctx.tran.request("GET", "/v2/ioservice/io/virtual/output/" + str(addr))["data"]
 
 
 def set_virtual_output(ctx, addr, status):
@@ -98,7 +98,7 @@ def set_virtual_output(ctx, addr, status):
         Failure: False
     """
 
-    return ctx.tran.put("/v2/ioservice/io/virtual/output/" + str(addr) + "/" + str(status))["success"]
+    return ctx.tran.request("PUT", "/v2/ioservice/io/virtual/output/" + str(addr) + "/" + str(status))["success"]
 
 def get_var(ctx, var_name):
     """获取IO总线上的IO变量值
@@ -112,7 +112,7 @@ def get_var(ctx, var_name):
         Failure (None): None
     """
 
-    return ctx.tran.get("/v2/ioservice/iobus/vars/" + var_name)["data"]
+    return ctx.tran.request("GET", "/v2/ioservice/iobus/vars/" + var_name)["data"]
 
 def set_var(ctx, var_name, value):
     """设置IO总线上的IO变量值
@@ -127,4 +127,4 @@ def set_var(ctx, var_name, value):
         Failure: False
     """
 
-    return ctx.tran.put("/v2/ioservice/iobus/vars/" + var_name + "/" + str(value))["success"]
+    return ctx.tran.request("PUT", "/v2/ioservice/iobus/vars/" + var_name + "/" + str(value))["success"]

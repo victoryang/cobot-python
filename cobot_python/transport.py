@@ -9,9 +9,9 @@ DefaultSchema = "http://"
 def url(addr, path):
     return DefaultSchema + addr + path
 
-def request_common_handle(token, data, kwargs):
-    if data:
-        kwargs["data"] = json.dumps(data)
+def request_common_handle(token, kwargs):
+    if kwargs["data"]:
+        kwargs["data"] = json.dumps(kwargs["data"])
 
     headers = {}
     headers["Content-Type"] = "application/json"
@@ -67,34 +67,8 @@ class Transport(object):
     def token(self, val):
         self._token = val
 
-    def get(self, path, **kwargs):
+    def request(self, method, path, **kwargs):
 
-        request_common_handle(self.token, None, kwargs)
+        request_common_handle(self.token, kwargs)
 
-        r = requests.get(url(self.addr, path), **kwargs)
-
-        return handle_response(r)
-
-    def post(self, path, *data, **kwargs):
-
-        request_common_handle(self.token, data, kwargs)
-
-        r = requests.post(url(self.addr, path), **kwargs)
-
-        return handle_response(r)
-
-    def put(self, path, *data, **kwargs):
-
-        request_common_handle(self.token, data, kwargs)
-
-        r = requests.put(url(self.addr, path), **kwargs)
-
-        return handle_response(r)
-
-    def delete(self, path, **kwargs):
-
-        request_common_handle(self.token, None, kwargs)
-
-        r = requests.delete(url(self.addr, path), **kwargs)
-
-        return handle_response(r)
+        return handle_response(requests.request(method, url(self.addr, path), **kwargs))
