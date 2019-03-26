@@ -72,7 +72,7 @@ class Transport(object):
         request_common_handle(self.token, kwargs)
 
         try:
-            handle_response(requests.request(method, url(self.addr, path), **kwargs))
+            return handle_response(requests.request(method, url(self.addr, path), **kwargs))
         except e:
             return {
                 "success": False,
