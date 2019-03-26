@@ -67,7 +67,7 @@ class Context(object):
             }
         }
 
-        r = self.tran.request("POST","/v1/login", **kwargs)
+        r = self.tran.request("POST", "/v1/login", **kwargs)
         if r["success"] == False:
             return False
 

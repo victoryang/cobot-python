@@ -22,9 +22,7 @@ def inverse_kinematic(ctx, pose):
     """
 
     kwargs = {
-        "data": {
-            "pose": pose
-        }
+        "data": pose
     }
 
     return ctx.tran.request("POST", "/v2/kinematicsservice/inversekinematic", **kwargs)["data"]
@@ -42,9 +40,7 @@ def positive_kinematic(ctx, pos):
     """
 
     kwargs = {
-        "data": {
-            "pose": pos
-        }
+        "data": pos
     }
 
     return ctx.tran.request("POST", "/v2/kinematicsservice/positivekinematic", **kwargs)["data"]
@@ -64,7 +60,7 @@ def base2user(ctx, pose, user_no=-1):
 
     kwargs = {
         "data": {
-            "pose": pose,
+            "targetPose": pose,
             "userNo": user_no
         }
     }
@@ -86,7 +82,7 @@ def user2base(ctx, pose, user_no=-1):
 
     kwargs = {
         "data": {
-            "pose": pose,
+            "targetPose": pose,
             "userNo": user_no
         }
     }

@@ -10,7 +10,7 @@ def url(addr, path):
     return DefaultSchema + addr + path
 
 def request_common_handle(token, kwargs):
-    if kwargs["data"]:
+    if "data" in kwargs:
         kwargs["data"] = json.dumps(kwargs["data"])
 
     headers = {}
