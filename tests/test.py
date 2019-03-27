@@ -31,6 +31,6 @@ print "get input status: " + str(io.get_input(ctx, 0))
 
 print "get latest alarm: " + str(alarm.get_latest_alarms(ctx))
 
-print "inverse kinematic: " + str(kinematic.inverse_kinematic(ctx, [0,90,0,90,0,90,0,90]))
+print "inverse kinematic: " + str(kinematic.inverse_kinematic(ctx, [0,90,0,90,0,90]))
 
 ctx.logout()
