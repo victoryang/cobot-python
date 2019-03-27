@@ -23,7 +23,7 @@ class Context(object):
     """
     tran = None
 
-    def __init__(self, addr, port):
+    def __init__(self, addr, port=9000):
         """Context's __init__ method
 
         Args:
