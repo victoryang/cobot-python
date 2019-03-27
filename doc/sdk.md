@@ -224,6 +224,8 @@ for i in xrange(10):
         print "check health: " + str(ctx.check_health())
 
     ctx.logout()
+
+del ctx
 ```
 
 <br/>
@@ -240,13 +242,13 @@ for i in xrange(10):
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
+from cobot_python import alarm
 from cobot_python import context
-from cobot_python import param
-from cobot_python import servo
 from cobot_python import io
 from cobot_python import kinematic
 from cobot_python import movement
-from cobot_python import alarm
+from cobot_python import param
+from cobot_python import servo
 
 ctx = context.Context("192.168.1.253", 9000)
 
@@ -265,9 +267,11 @@ print "get input status: " + str(io.get_input(ctx, 0))
 
 print "get latest alarm: " + str(alarm.get_latest_alarms(ctx))
 
-print "inverse kinematic: " + str(kinematic.inverse_kinematic(ctx, [0,90,0,90,0,90,0,90]))
+print "inverse kinematic: " + str(kinematic.inverse_kinematic(ctx, [0,90,0,90,0,90]))
 
 ctx.logout()
+
+del ctx
 ```
 
 <br/>
@@ -293,7 +297,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import context
+        from cobot_python import context
 
         context.Context(addr, port=9000)
 ```
@@ -301,9 +305,9 @@ ctx.logout()
 - <h3 id="1.2">1.2 销毁上下文</h3>
 
 ```python
-        from elt import context
+        from cobot_python import context
 
-        ctx = context.Context(addr, port=9000)
+        ctx = context.Context("192.168.1.253", 9000)
         del ctx
 ```
 
@@ -318,10 +322,9 @@ ctx.logout()
 |||
 
 ```python
-        from elt import context
+        from cobot_python import context
 
-        ctx = context.Context(addr, port=9000)
-        ctx.login("xxxx", "xxxx")
+        ctx.login(username, password)
 ```
 
 - <h3 id="1.4">1.4 退出</h3>
@@ -335,10 +338,8 @@ ctx.logout()
 |||
 
 ```python
-        from elt import context
+        from cobot_python import context
 
-        ctx = context.Context(addr, port=9000)
-        ctx.login("xxxx", "xxxx")
         ctx.logout()
 ```
 
@@ -359,7 +360,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import servo
+        from cobot_python import servo
 
         servo.power(ctx)
 ```
@@ -375,7 +376,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import servo
+        from cobot_python import servo
 
         servo.startup(ctx)
 ```
@@ -391,7 +392,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import servo
+        from cobot_python import servo
 
         servo.shutdown(ctx)
 ```
@@ -413,9 +414,9 @@ ctx.logout()
 |||
 
 ```python
-        from elt import servo
+        from cobot_python import param
 
-        servo.get_robot_state(ctx)
+        param.get_robot_state(ctx)
 ```
 
 - <h3 id="3.2">3.2 获取机器人模式</h3>
@@ -429,9 +430,9 @@ ctx.logout()
 |||
 
 ```python
-        from elt import servo
+        from cobot_python import param
 
-        servo.get_robot_mode(ctx)
+        param.get_robot_mode(ctx)
 ```
 
 - <h3 id="3.3">3.3 设置机器人模式</h3>
@@ -445,9 +446,9 @@ ctx.logout()
 |||
 
 ```python
-        from elt import servo
+        from cobot_python import param
 
-        servo.set_robot_mode(ctx, mode)
+        param.set_robot_mode(ctx, mode)
 ```
 
 - <h3 id="3.4">3.4 获取机器人当前位置信息</h3>
@@ -461,9 +462,9 @@ ctx.logout()
 |||
 
 ```python
-        from elt import servo
+        from cobot_python import param
 
-        servo.get_robot_pos(ctx)
+        param.get_robot_pos(ctx)
 ```
 
 - <h3 id="3.5">3.5 获取机器人当前位姿信息</h3>
@@ -477,9 +478,9 @@ ctx.logout()
 |||
 
 ```python
-        from elt import servo
+        from cobot_python import param
 
-        servo.get_robot_pose(ctx)
+        param.get_robot_pose(ctx)
 ```
 
 - <h3 id="3.6">3.6 获取机械臂伺服状态</h3>
@@ -493,9 +494,9 @@ ctx.logout()
 |||
 
 ```python
-        from elt import servo
+        from cobot_python import param
 
-        servo.get_servo_status(ctx)
+        param.get_servo_status(ctx)
 ```
 
 - <h3 id="3.7">3.7 获取机械臂上下电状态</h3>
@@ -509,9 +510,9 @@ ctx.logout()
 |||
 
 ```python
-        from elt import servo
+        from cobot_python import param
 
-        servo.get_motor_status(ctx)
+        param.get_motor_status(ctx)
 ```
 
 - <h3 id="3.8">3.8 获取机器人运行速度</h3>
@@ -525,9 +526,9 @@ ctx.logout()
 |||
 
 ```python
-        from elt import servo
+        from cobot_python import param
 
-        servo.get_play_speed(ctx)
+        param.get_play_speed(ctx)
 ```
 
 - <h3 id="3.9">3.9 设置机器人运行速度</h3>
@@ -541,9 +542,9 @@ ctx.logout()
 |||
 
 ```python
-        from elt import servo
+        from cobot_python import param
 
-        servo.set_play_speed(ctx)
+        param.set_play_speed(ctx)
 ```
 
 <br/>
@@ -563,7 +564,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import movement
+        from cobot_python import movement
 
         movement.joint_move(ctx, target_pos, speed)
 ```
@@ -579,7 +580,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import movement
+        from cobot_python import movement
 
         movement.line_move(ctx, target_pos, speed)
 ```
@@ -595,7 +596,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import movement
+        from cobot_python import movement
 
         movement.arc_move(ctx, mid_pos, target_pos, speed)
 ```
@@ -611,7 +612,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import movement
+        from cobot_python import movement
 
         movement.rotate_move(ctx, target_pos, speed)
 ```
@@ -627,7 +628,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import movement
+        from cobot_python import movement
 
         movement.set_waypoint_max_joint_speed(ctx, speed)
 ```
@@ -643,7 +644,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import movement
+        from cobot_python import movement
 
         movement.set_waypoint_max_line_speed(ctx, speed)
 ```
@@ -659,7 +660,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import movement
+        from cobot_python import movement
 
         movement.set_waypoint_max_rotate_speed(ctx, speed)
 ```
@@ -675,7 +676,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import movement
+        from cobot_python import movement
 
         movement.add_waypoint(ctx, target_pos)
 ```
@@ -691,7 +692,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import movement
+        from cobot_python import movement
 
         movement.clear_waypoint(ctx)
 ```
@@ -707,7 +708,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import movement
+        from cobot_python import movement
 
         movement.track_move(ctx, target_pos, move_type, pl)
 ```
@@ -723,7 +724,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import movement
+        from cobot_python import movement
 
         movement.stop(ctx)
 ```
@@ -745,7 +746,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import kinematic
+        from cobot_python import kinematic
 
         kinematic.inverse_kinematic(ctx, pos)
 ```
@@ -761,7 +762,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import kinematic
+        from cobot_python import kinematic
 
         kinematic.positive_kinematic(ctx, pos)
 ```
@@ -777,7 +778,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import kinematic
+        from cobot_python import kinematic
 
         kinematic.base2user(ctx, pose, user_no=-1)
 ```
@@ -793,7 +794,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import kinematic
+        from cobot_python import kinematic
 
         kinematic.user2base(ctx, pose, user_no=-1)
 ```
@@ -815,7 +816,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import io
+        from cobot_python import io
 
         io.get_input(ctx, addr)
 ```
@@ -831,7 +832,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import io
+        from cobot_python import io
 
         io.get_ouput(ctx, addr)
 ```
@@ -847,7 +848,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import io
+        from cobot_python import io
 
         io.set_output(ctx, addr, status)
 ```
@@ -863,7 +864,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import io
+        from cobot_python import io
 
         io.get_virtual_input(ctx, addr)
 ```
@@ -879,7 +880,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import io
+        from cobot_python import io
 
         io.get_virtual_output(ctx, addr)
 ```
@@ -895,7 +896,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import io
+        from cobot_python import io
 
         io.set_virtual_output(ctx, addr, status)
 ```
@@ -911,7 +912,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import io
+        from cobot_python import io
 
         io.get_var(ctx, var_name)
 ```
@@ -927,7 +928,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import io
+        from cobot_python import io
 
         io.set_var(ctx, var_name, value)
 ```
@@ -949,7 +950,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import alarm
+        from cobot_python import alarm
 
         alarm.reset()
 ```
@@ -965,7 +966,7 @@ ctx.logout()
 |||
 
 ```python
-        from elt import alarm
+        from cobot_python import alarm
 
         alarm.get_latest_alarms()
 ```
