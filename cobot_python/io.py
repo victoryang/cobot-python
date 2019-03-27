@@ -61,7 +61,7 @@ def get_virtual_input(ctx, addr):
 
     Args:
         ctx (context.Context): 登陆上下文
-        addr (int): 输出IO地址
+        addr (int): 输入IO地址
 
     Returns:
         Success (int): IO状态
